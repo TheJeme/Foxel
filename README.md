@@ -1,0 +1,2 @@
+# Foxel
+Discord bot
