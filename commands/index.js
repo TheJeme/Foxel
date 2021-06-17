@@ -5,4 +5,8 @@ module.exports = {
   Owo: require("./owo"),
   Foxel: require("./foxel"),
   Help: require("./help"),
+  Coinflip: require("./coinflip"),
+  Dice: require("./dice"),
+  Lenny: require("./lenny"),
+  Botinfo: require("./botinfo"),
 };
