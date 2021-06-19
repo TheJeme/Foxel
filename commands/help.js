@@ -50,7 +50,7 @@ module.exports = {
       )
       .addField(
         "__Misc__",
-        '**>fox** : "Sends a picture of fox"\n**>weather [city/place]** : "Shows weather in the given place"\n**>color [hex/rgb]** : "Sends a picture of given color"\n**>resize [image-link] [width] [height]** : "Resizes the image to given dimensions"\n**>timepercentage [hour/day/week/month/year]** : "Shows time in percentage"',
+        '**>fox** : "Sends a picture of fox"\n**>weather [city/place]** : "Shows weather in the given place"\n**>color [hex/rgb]** : "Sends a picture of given color"\n**>resize [image-link] [width] [height]** : "Resizes the image to given dimensions"\n**>tp** : "Shows time in percentages"',
         false
       )
       .setFooter("For more specific info, type: help [command]");

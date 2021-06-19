@@ -19,4 +19,5 @@ module.exports = {
   Enable: require("./enable"),
   Disable: require("./disable"),
   Waifu: require("./waifu"),
+  Tp: require("./tp"),
 };
