@@ -12,6 +12,8 @@
     "axios": "^0.21.1",
     "discord.js": "^11.5.1",
     "dotenv": "^8.2.0",
-    "firebase": "^8.6.8"
+    "firebase": "^8.6.8",
+    "rgb-hex": "^4.0.0",
+    "rgb-to-hex": "0.0.0"
   }
 }

@@ -14,4 +14,5 @@ module.exports = {
   Fox: require("./fox"),
   Userinfo: require("./userinfo"),
   Random: require("./random"),
+  Color: require("./color"),
 };
