@@ -18,4 +18,5 @@ module.exports = {
   Reverse: require("./reverse"),
   Enable: require("./enable"),
   Disable: require("./disable"),
+  Waifu: require("./waifu"),
 };
