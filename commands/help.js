@@ -10,7 +10,7 @@ module.exports = {
       .setColor(0xf66464)
       .addField(
         "__General__",
-        '**>serverinfo** : "Shows information about this server"\n**>userinfo** : "Shows information about specific user"\n**>botinfo** : "Shows information about this bot"\n**>avatar [@user]** : "Shows tagged user avatar"\n**>invite** : "Send my invitation link"\n',
+        '**>serverinfo** : "Shows information about this server"\n**>userinfo** : "Shows information about given user"\n**>botinfo** : "Shows information about this bot"\n**>avatar [@user]** : "Shows tagged user avatar"\n**>invite** : "Send my invitation link"\n',
         false
       )
       .addField(
@@ -25,17 +25,17 @@ module.exports = {
       )
       .addField(
         "__Crypto__",
-        '**>price [crypto]** : "Shows current price of specific crypto"\n**>invitecrypto [crypto]** : "Sends invitation link for bot that shows current price of specific crypto."\n',
+        '**>price [crypto]** : "Shows current price of given crypto"\n**>invitecrypto [crypto]** : "Sends invitation link for bot that shows current price of given crypto."\n',
         false
       )
       .addField(
         "__Reminder__",
-        '**>showreminders** : "Shows your reminders"\n**>addreminder [message]** : "Adds new reminder"\n**>deletereminder [id]** : "Deletes specific reminder"\n**>deleteallreminders** : "Deletes all your reminders"',
+        '**>showreminders** : "Shows your reminders"\n**>addreminder [message]** : "Adds new reminder"\n**>deletereminder [id]** : "Deletes the given reminder"\n**>deleteallreminders** : "Deletes all your reminders"',
         false
       )
       .addField(
         "__Anime__",
-        '**>waifu [tag]** : "Sends waifu with specific tag"\n',
+        '**>waifu [tag]** : "Sends waifu with given tag"\n',
         false
       )
       .addField(
@@ -45,12 +45,12 @@ module.exports = {
       )
       .addField(
         "__Text__",
-        '**>wc [message]** : "Shows word and character count"\n**>reverse [message]** : "Reverses the message"\n',
+        '**>wc [message]** : "Shows word and character count"\n**>reverse [message]** : "Reverses the given message"\n',
         false
       )
       .addField(
         "__Misc__",
-        '**>fox** : "Sends a picture of fox"\n**>weather [city/place]** : "Shows weather in specific place"\n**>color [hex/rgb]** : "Sends a picture of specific color"\n**>resize [image-link] [width] [height]** : "Resizes the image to specific dimensions"\n**>timepercentage [hour/day/week/month/year]** : "Shows time in percentage"',
+        '**>fox** : "Sends a picture of fox"\n**>weather [city/place]** : "Shows weather in the given place"\n**>color [hex/rgb]** : "Sends a picture of given color"\n**>resize [image-link] [width] [height]** : "Resizes the image to given dimensions"\n**>timepercentage [hour/day/week/month/year]** : "Shows time in percentage"',
         false
       )
       .setFooter("For more specific info, type: help [command]");

@@ -15,4 +15,5 @@ module.exports = {
   Userinfo: require("./userinfo"),
   Random: require("./random"),
   Color: require("./color"),
+  Reverse: require("./reverse"),
 };
