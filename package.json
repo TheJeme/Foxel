@@ -9,7 +9,9 @@
   "author": "JemeDev",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.21.1",
     "discord.js": "^11.5.1",
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "firebase": "^8.6.8"
   }
 }

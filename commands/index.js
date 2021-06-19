@@ -9,4 +9,9 @@ module.exports = {
   Dice: require("./dice"),
   Lenny: require("./lenny"),
   Botinfo: require("./botinfo"),
+  Serverinfo: require("./serverinfo"),
+  Invite: require("./invite"),
+  Fox: require("./fox"),
+  Userinfo: require("./userinfo"),
+  Random: require("./random"),
 };

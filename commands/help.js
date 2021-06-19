@@ -3,10 +3,10 @@ const Discord = require("discord.js");
 module.exports = {
   name: "help",
   description: "Help, shows all non-secret commands",
-  execute(msg, args) {
+  execute(msg, args, bot) {
     const embed = new Discord.RichEmbed()
       .setTitle("Help")
-      .setAuthor("Foxel Commands", "https://i.imgur.com/TibvXvx.jpg")
+      .setAuthor("Foxel Commands", bot.user.avatarURL)
       .setColor(0xf66464)
       .addField(
         "__General__",
@@ -15,7 +15,7 @@ module.exports = {
       )
       .addField(
         "__Fun__",
-        '**>coinflip** : "Flips a coin"\n**>dice** : "Rolls a dice"\n**>random [min, max]** : "Generates random number"',
+        '**>coinflip** : "Flips a coin"\n**>dice** : "Rolls a dice"\n**>random [min] [max]** : "Generates random number"',
         false
       )
       .addField(
@@ -23,30 +23,37 @@ module.exports = {
         '**>play [youtube_video]** : "Plays a song with the given name or url"\n**>skip** : "Skips the current song"\n**>loop** : "Loops the current song"\n**>np** : "Shows what song is currently playing"\n**>join** : "Joins the voice channel"\n**>leave** : "Leaves the voice channel"',
         false
       )
-      .addField("__Crypto__", "Some value here", false)
       .addField(
-        "__Notes__",
-        '**>shownotes** : "Shows your notes"\n**>addnote [message]** : "Adds a new note"\n**>deletenote [id]** : "Deletes the specific note"\n**>deleteallnotes** : "Deletes all your notes"',
+        "__Crypto__",
+        '**>price [crypto]** : "Shows current price of specific crypto"\n**>invitecrypto [crypto]** : "Sends invitation link for bot that shows current price of specific crypto."\n',
         false
       )
-      .addField("__Anime__", '**>wip** : "Waifu.pics api"', false)
       .addField(
-        //TODO
         "__Reminder__",
-        '**>wip** : "Work in progress"',
+        '**>showreminders** : "Shows your reminders"\n**>addreminder [message]** : "Adds new reminder"\n**>deletereminder [id]** : "Deletes specific reminder"\n**>deleteallreminders** : "Deletes all your reminders"',
         false
       )
       .addField(
-        "__Convert__",
-        '**>text->morse [message]** : "Converts message to morse message"\n**>morse->text [message]** : "Converts morse message to normal message"\n**>dec->bin [message]** : "Converts decimal to binary"\n**>bin->dec [message]** : "Converts binary to decimal"\n**>hex->rgb [message]** : "Converts hex to rgb"\n**>rgb->hex [message]** : "Converts rgb to hex"\n**>hex->rgb [message]** : "Converts hex to rgb"\n**>reverse [message]** : "Reverses the message"\n**>resize [image-link] [width] [height]** : "Resizes the image to specific dimensions"',
+        "__Anime__",
+        '**>waifu [tag]** : "Sends waifu with specific tag"\n',
+        false
+      )
+      .addField(
+        "__Personal__",
+        '**>setlocation [city/place]** : "Sets your default location for weather"\n**>setbirthday [dd/mm]** : "Sets your birthday for a nice surprise."\n**>settimezone [timezone]** : "Sets your default timezone"\n**>enable** : "Enables daily message from me"\n**>disable** : "Disables daily message from me"',
+        false
+      )
+      .addField(
+        "__Text__",
+        '**>wc [message]** : "Shows word and character count"\n**>reverse [message]** : "Reverses the message"\n',
         false
       )
       .addField(
         "__Misc__",
-        '**>fox** : "Sends a picture of fox"\n**>weather [city/place]** : "Shows weather in specific place"\n**>color [hex/rgb]** : "Sends a picture of specific color"\n**>setbirthday [dd/mm]** : "Sets your birthday for nice a surprise."\n**>timepercentage [hour/day/week/month/year]** : "Shows time in percentage"',
+        '**>fox** : "Sends a picture of fox"\n**>weather [city/place]** : "Shows weather in specific place"\n**>color [hex/rgb]** : "Sends a picture of specific color"\n**>resize [image-link] [width] [height]** : "Resizes the image to specific dimensions"\n**>timepercentage [hour/day/week/month/year]** : "Shows time in percentage"',
         false
       )
-      .setFooter("For more specific info, type: help [command_name]");
+      .setFooter("For more specific info, type: help [command]");
     msg.channel.send(embed);
   },
 };

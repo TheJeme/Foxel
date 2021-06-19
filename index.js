@@ -27,7 +27,7 @@ bot.on("message", (msg) => {
   if (!bot.commands.has(command)) return;
 
   try {
-    bot.commands.get(command).execute(msg, args);
+    bot.commands.get(command).execute(msg, args, bot);
   } catch (error) {
     console.error(error);
     msg.reply("there was an error trying to execute that command!");
