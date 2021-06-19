@@ -16,4 +16,6 @@ module.exports = {
   Random: require("./random"),
   Color: require("./color"),
   Reverse: require("./reverse"),
+  Enable: require("./enable"),
+  Disable: require("./disable"),
 };
