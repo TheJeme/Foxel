@@ -11,18 +11,19 @@ module.exports = {
       );
       return;
     }
-
     const [crypto, currency = "eur"] = args;
     axios
       .get(
-        `https://api.coingecko.com/api/v3/simple/price?ids=${crypto}&vs_currencies=${currency}`
+        `https://api.coingecko.com/api/v3/simple/price?ids=${crypto.toLowerCase()}&vs_currencies=${currency.toLowerCase()}`
       )
       .then((response) => {
         let price;
-        if (currency == "eur") {
-          price = response.data[crypto][currency] + "€";
-        } else if (currency == "usd") {
-          price = "$" + response.data[crypto][currency];
+        if (currency.toLowerCase() == "eur") {
+          price =
+            response.data[crypto.toLowerCase()][currency.toLowerCase()] + "€";
+        } else if (currency.toLowerCase() == "usd") {
+          price =
+            "$" + response.data[crypto.toLowerCase()][currency.toLowerCase()];
         } else {
           msg.channel.send(
             "Incorrect use.\nUse either **eur** or **usd** as a currency."

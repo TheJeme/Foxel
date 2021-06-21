@@ -40,6 +40,8 @@ module.exports = {
         .setDescription(
           "https://discord.com/api/oauth2/authorize?client_id=855042237687791646&permissions=8&scope=bot"
         );
+    } else {
+      return;
     }
     msg.channel.send(embed);
   },
