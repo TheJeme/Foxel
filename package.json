@@ -15,6 +15,7 @@
     "firebase": "^8.6.8",
     "moment": "^2.29.1",
     "rgb-hex": "^4.0.0",
-    "rgb-to-hex": "0.0.0"
+    "rgb-to-hex": "0.0.0",
+    "ytdl-core": "^4.8.2"
   }
 }

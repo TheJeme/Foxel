@@ -89,7 +89,8 @@ module.exports = {
       .addField("Week", week())
       .addField("Month", month())
       .addField("Year", year())
-      .addField("Decade", decade());
+      .addField("Decade", decade())
+      .setFooter(moment().format("MMMM Do YYYY, HH:mm:ss"));
     msg.channel.send(embed);
   },
 };
