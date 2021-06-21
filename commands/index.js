@@ -25,4 +25,5 @@ module.exports = {
   Settimezone: require("./settimezone"),
   SetLocation: require("./settimezone"),
   SetBirthday: require("./setbirthday"),
+  Avatar: require("./avatar"),
 };
