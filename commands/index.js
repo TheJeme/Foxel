@@ -27,4 +27,7 @@ module.exports = {
   SetBirthday: require("./setbirthday"),
   Avatar: require("./avatar"),
   Price: require("./price"),
+  InviteCrypto: require("./invitecrypto"),
+  Weather: require("./weather"),
+  Wc: require("./wc"),
 };

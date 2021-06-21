@@ -9,7 +9,6 @@ module.exports = {
       return;
     }
     var baseString = args.join(" ");
-    console.log(baseString);
     var splitString = baseString.split("");
     var reversedSplitString = splitString.reverse();
     var reversedString = reversedSplitString.join("");

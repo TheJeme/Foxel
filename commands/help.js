@@ -10,7 +10,7 @@ module.exports = {
       .setColor(0xf66464)
       .addField(
         "__General__",
-        '**>serverinfo** : "Shows information about this server"\n**>userinfo** : "Shows information about given user"\n**>botinfo** : "Shows information about this bot"\n**>avatar [@user]** : "Shows tagged user avatar"\n**>invite** : "Send my invitation link"\n',
+        '**>serverinfo** : "Shows information about this server"\n**>userinfo [@user]** : "Shows information about given user"\n**>botinfo** : "Shows information about this bot"\n**>avatar [@user]** : "Shows tagged user avatar"\n**>invite** : "Sends my invitation link"\n',
         false
       )
       .addField(
@@ -50,7 +50,7 @@ module.exports = {
       )
       .addField(
         "__Misc__",
-        '**>fox** : "Sends a picture of fox"\n**>weather [city/place]** : "Shows weather in the given place"\n**>color [hex/rgb]** : "Sends a picture of given color"\n**>resize [image-link] [width] [height]** : "Resizes the image to given dimensions"\n**>tp** : "Shows time in percentages"',
+        '**>fox** : "Sends a picture of fox"\n**>weather [city/place]** : "Shows weather in the given place"\n**>color [hex/rgb]** : "Sends a picture of given color"\n**>tp** : "Shows time in percentages"',
         false
       )
       .setFooter("For more specific info, type: help [command]");
