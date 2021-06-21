@@ -80,7 +80,7 @@ module.exports = {
   name: "tp",
   description: "Shows time in percentages.",
   execute(msg, args, bot) {
-    let embed = new Discord.RichEmbed()
+    let embed = new Discord.MessageEmbed()
       .setAuthor("Time in percentages", bot.user.avatarURL)
       .setColor(0xf66464)
       .addField("Minute", minute())

@@ -4,7 +4,7 @@ module.exports = {
   name: "botinfo",
   description: "Shows bot info.",
   execute(msg, args, bot) {
-    const embed = new Discord.RichEmbed()
+    const embed = new Discord.MessageEmbed()
       .setTitle("Foxel Information")
       .setColor(0xf66464)
       .setThumbnail(bot.user.avatarURL)

@@ -9,10 +9,10 @@ module.exports = {
       return;
     }
 
-    let embed = new Discord.RichEmbed()
+    let embed = new Discord.MessageEmbed()
       .setAuthor(
         `${msg.author.username}#${msg.author.discriminator}`,
-        msg.author.avatarURL
+        msg.author.displayAvatarURL()
       )
       .setColor(0xf66464)
       .setDescription(

@@ -21,4 +21,8 @@ module.exports = {
   Waifu: require("./waifu"),
   Tp: require("./tp"),
   Sus: require("./sus"),
+  Play: require("./play"),
+  Settimezone: require("./settimezone"),
+  SetLocation: require("./settimezone"),
+  SetBirthday: require("./setbirthday"),
 };

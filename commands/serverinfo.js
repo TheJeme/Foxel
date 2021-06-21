@@ -4,7 +4,7 @@ module.exports = {
   name: "serverinfo",
   description: "Shows server info.",
   execute(msg, args) {
-    let embed = new Discord.RichEmbed()
+    let embed = new Discord.MessageEmbed()
       .setTitle("Server Information")
       .setColor(0xf66464)
       .addField("Server Name", msg.guild.name)

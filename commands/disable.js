@@ -1,6 +1,6 @@
 module.exports = {
   name: "disable",
-  description: "Disables daily message from bot",
+  description: "Disables daily message from bot.",
   execute(msg, args) {
     if (msg.guild !== null) {
       msg.channel.send("This command can only be used in my direct messages!");

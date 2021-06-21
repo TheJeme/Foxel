@@ -5,16 +5,16 @@ module.exports = {
   description: "Flips a coin.",
   execute(msg, args) {
     if (Math.random() < 0.5) {
-      let embed = new Discord.RichEmbed()
+      let embed = new Discord.MessageEmbed()
         .setAuthor(
           `${msg.author.username}#${msg.author.discriminator}`,
-          msg.author.avatarURL
+          msg.author.displayAvatarURL()
         )
         .setColor(0xf66464)
         .setDescription(`Heads`);
       msg.channel.send(embed);
     } else {
-      let embed = new Discord.RichEmbed()
+      let embed = new Discord.MessageEmbed()
         .setAuthor(
           `${msg.author.username}#${msg.author.discriminator}`,
           msg.author.avatarURL

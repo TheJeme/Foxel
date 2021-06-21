@@ -9,12 +9,27 @@ module.exports = {
       return;
     }
 
-    let embed = new Discord.RichEmbed()
+    let user;
+
+    if (args[0].startsWith("<@") && args[0].endsWith(">")) {
+      args[0] = args[0].slice(2, -1);
+
+      if (args[0].startsWith("!")) {
+        args[0] = args[0].slice(1);
+      }
+      if (args[0].startsWith("&")) {
+        args[0] = args[0].slice(1);
+      }
+      console.log(args[0]);
+      user = bot.users.fetch(args[0]);
+    }
+
+    let embed = new Discord.MessageEmbed()
       .setTitle(`${args[0]} Information`)
-      .setThumbnail(bot.user.avatarURL)
+      .setThumbnail(user.displayAvatarURL())
       .setColor(0xf66464)
-      .addField("Server Name", msg.guild.name)
-      .addField("Total members", msg.guild.memberCount);
+      .addField("Name", user.username)
+      .addField("ID", user.id);
     msg.channel.send(embed);
   },
 };

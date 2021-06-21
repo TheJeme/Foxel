@@ -4,7 +4,7 @@ module.exports = {
   name: "help",
   description: "Help, shows all non-secret commands",
   execute(msg, args, bot) {
-    const embed = new Discord.RichEmbed()
+    const embed = new Discord.MessageEmbed()
       .setTitle("Help")
       .setAuthor("Foxel Commands", bot.user.avatarURL)
       .setColor(0xf66464)

@@ -9,8 +9,10 @@
   "author": "JemeDev",
   "license": "MIT",
   "dependencies": {
+    "@discordjs/opus": "^0.5.3",
     "axios": "^0.21.1",
-    "discord.js": "^11.5.1",
+    "discord-music-player": "^7.1.4",
+    "discord.js": "^12.5.3",
     "dotenv": "^8.2.0",
     "firebase": "^8.6.8",
     "moment": "^2.29.1",
