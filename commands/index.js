@@ -23,7 +23,8 @@ module.exports = {
   Sus: require("./sus"),
   Play: require("./play"),
   Settimezone: require("./settimezone"),
-  SetLocation: require("./settimezone"),
+  SetLocation: require("./setlocation"),
   SetBirthday: require("./setbirthday"),
   Avatar: require("./avatar"),
+  Price: require("./price"),
 };

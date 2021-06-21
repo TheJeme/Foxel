@@ -6,5 +6,6 @@ module.exports = {
       msg.channel.send("Incorrect use.\n**Example:** >setlocation Kuopio");
       return;
     }
+    msg.channel.send(`Your location is set to ${args[0]}`);
   },
 };

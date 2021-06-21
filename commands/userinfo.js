@@ -6,9 +6,10 @@ module.exports = {
   async execute(msg, args, bot) {
     if (args.length !== 1) {
       let embed = new Discord.MessageEmbed()
-        .setTitle(`${msg.author.username} Information`)
+        .setTitle(`User Information`)
         .setThumbnail(msg.author.avatarURL())
         .setColor(0xf66464)
+        .addField("Name", msg.author.username)
         .addField("ID", msg.author.id);
       msg.channel.send(embed);
       return;
@@ -29,9 +30,10 @@ module.exports = {
     }
 
     let embed = new Discord.MessageEmbed()
-      .setTitle(`${user.username} Information`)
+      .setTitle(`User Information`)
       .setThumbnail(user.avatarURL())
       .setColor(0xf66464)
+      .addField("Name", user.username)
       .addField("ID", user.id);
     msg.channel.send(embed);
   },

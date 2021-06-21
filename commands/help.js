@@ -6,7 +6,7 @@ module.exports = {
   execute(msg, args, bot) {
     const embed = new Discord.MessageEmbed()
       .setTitle("Help")
-      .setAuthor("Foxel Commands", bot.user.avatarURL)
+      .setAuthor("Foxel Commands", bot.user.displayAvatarURL())
       .setColor(0xf66464)
       .addField(
         "__General__",
@@ -25,7 +25,7 @@ module.exports = {
       )
       .addField(
         "__Crypto__",
-        '**>price [crypto]** : "Shows current price of given crypto"\n**>invitecrypto [crypto]** : "Sends invitation link for bot that shows current price of given crypto."\n',
+        '**>price [crypto] [currency]** : "Shows current price of given crypto"\n**>invitecrypto [crypto]** : "Sends invitation link for bot that shows current price of given crypto."\n',
         false
       )
       .addField(

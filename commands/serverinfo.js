@@ -7,6 +7,7 @@ module.exports = {
     let embed = new Discord.MessageEmbed()
       .setTitle("Server Information")
       .setColor(0xf66464)
+      .setThumbnail(msg.guild.iconURL())
       .addField("Server Name", msg.guild.name)
       .addField("Server owner", msg.guild.owner)
       .addField("Created on", msg.guild.createdAt)

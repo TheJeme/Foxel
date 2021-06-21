@@ -25,7 +25,6 @@ bot.login(TOKEN);
 bot.on("ready", () => {
   console.info(`Logged in as ${bot.user.tag}!`);
   bot.user.setActivity(`${prefix}help`);
-  bot.player.play("Despacito");
 });
 
 bot.on("message", (msg) => {
