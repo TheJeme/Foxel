@@ -22,7 +22,6 @@ module.exports = {
   Tp: require("./tp"),
   Sus: require("./sus"),
   Play: require("./play"),
-  Settimezone: require("./settimezone"),
   SetLocation: require("./setlocation"),
   SetBirthday: require("./setbirthday"),
   Avatar: require("./avatar"),

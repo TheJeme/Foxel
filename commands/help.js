@@ -40,7 +40,7 @@ module.exports = {
       )
       .addField(
         "__Personal__",
-        '**>setlocation [city] [country code]** : "Sets your default location for weather"\n**>setbirthday [dd/mm]** : "Sets your birthday for a nice surprise."\n**>settimezone [timezone]** : "Sets your default timezone"\n**>enable** : "Enables daily message from me"\n**>disable** : "Disables daily message from me"',
+        '**>setlocation [city] [country code]** : "Sets your default location for weather"\n**>setbirthday [day] [month]** : "Sets your birthday for a nice surprise."\n**>enable** : "Enables daily message from me"\n**>disable** : "Disables daily message from me"',
         false
       )
       .addField(
