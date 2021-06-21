@@ -40,7 +40,7 @@ module.exports = {
       )
       .addField(
         "__Personal__",
-        '**>setlocation [city/place]** : "Sets your default location for weather"\n**>setbirthday [dd/mm]** : "Sets your birthday for a nice surprise."\n**>settimezone [timezone]** : "Sets your default timezone"\n**>enable** : "Enables daily message from me"\n**>disable** : "Disables daily message from me"',
+        '**>setlocation [city] [country code]** : "Sets your default location for weather"\n**>setbirthday [dd/mm]** : "Sets your birthday for a nice surprise."\n**>settimezone [timezone]** : "Sets your default timezone"\n**>enable** : "Enables daily message from me"\n**>disable** : "Disables daily message from me"',
         false
       )
       .addField(
@@ -50,7 +50,7 @@ module.exports = {
       )
       .addField(
         "__Misc__",
-        '**>fox** : "Sends a picture of fox"\n**>weather [city/place]** : "Shows weather in the given place"\n**>color [hex/rgb]** : "Sends a picture of given color"\n**>tp** : "Shows time in percentages"',
+        '**>fox** : "Sends a picture of fox"\n**>weather [city] [country code]** : "Shows weather in the given place"\n**>color [hex/rgb]** : "Sends a picture of given color"\n**>tp** : "Shows time in percentages"',
         false
       )
       .setFooter("For more specific info, type: help [command]");
