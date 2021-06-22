@@ -32,4 +32,5 @@ module.exports = {
   Join: require("./join"),
   Pause: require("./pause"),
   Resume: require("./resume"),
+  Leave: require("./leave"),
 };

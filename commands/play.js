@@ -10,7 +10,7 @@ module.exports = {
     }
     if (args.length !== 1) {
       msg.channel.send(
-        "Incorrect use.\n**Example:** >play https://www.youtube.com/watch?v=I0-Af7HiJng"
+        "Incorrect use.\n**Example:** >play https://www.youtube.com/watch?v=xxx"
       );
       return;
     }
@@ -18,7 +18,6 @@ module.exports = {
     bot.dispatcher = bot.connection.play(
       ytdl(args[0], {
         filter: "audioonly",
-        bitrate: 192000,
       })
     );
   },

@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const axios = require("axios");
+const moment = require("moment");
 
 module.exports = {
   name: "price",
@@ -13,32 +14,37 @@ module.exports = {
     }
     const [crypto, currency = "eur"] = args;
     axios
-      .get(
-        `https://api.coingecko.com/api/v3/simple/price?ids=${crypto.toLowerCase()}&vs_currencies=${currency.toLowerCase()}`
-      )
+      .get(`https://api.coingecko.com/api/v3/coins/${crypto.toLowerCase()}`)
       .then((response) => {
-        let price;
+        let price, rank, pricechange;
         if (currency.toLowerCase() == "eur") {
-          price =
-            response.data[crypto.toLowerCase()][currency.toLowerCase()] + "€";
+          price = response.data.market_data.current_price[currency] + "€";
         } else if (currency.toLowerCase() == "usd") {
-          price =
-            "$" + response.data[crypto.toLowerCase()][currency.toLowerCase()];
+          price = "$" + response.data.market_data.current_price[currency];
         } else {
           msg.channel.send(
             "Incorrect use.\nUse either **eur** or **usd** as a currency."
           );
           return;
         }
+        rank = response.data.market_cap_rank;
+        pricechange =
+          response.data.market_data.price_change_percentage_24h_in_currency[
+            currency
+          ].toFixed(2) + "%";
         let embed = new Discord.MessageEmbed()
           .setTitle(
             `${
               crypto.toLowerCase().charAt(0).toUpperCase() +
               crypto.toLowerCase().slice(1)
-            } Price`
+            }`
           )
           .setColor(0xf66464)
-          .setDescription(`Price: ${price}`);
+          .setThumbnail(response.data.image.thumb)
+          .addField("Rank", rank)
+          .addField("Price", price)
+          .addField("Price Change (24h)", pricechange)
+          .setFooter(moment().format("MMMM Do YYYY, HH:mm:ss"));
         msg.channel.send(embed);
       })
       .catch((err) => console.log(err));
