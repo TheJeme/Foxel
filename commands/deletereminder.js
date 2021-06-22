@@ -6,7 +6,7 @@ module.exports = {
   execute(msg, args) {
     if (arguments.length < 3) {
       msg.channel.send(
-        "Incorrect use.\nTake id with command: >showreminders\n**Example:** >deletereminder 1"
+        "Incorrect use.\nTake id with command: >showreminders\n**Example:** >deletereminder 6"
       );
       return;
     }

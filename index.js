@@ -30,7 +30,10 @@ bot.on("ready", async () => {
   bot.user.setActivity(`${prefix}help`);
   setInterval(function () {
     dailyMessage();
-  }, 10000);
+  }, 60000);
+  setInterval(function () {
+    checkReminders();
+  }, 1000);
 });
 
 bot.on("message", (msg) => {
@@ -52,20 +55,58 @@ bot.on("message", (msg) => {
   }
 });
 
+async function checkReminders() {
+  var db = firebase.firestore();
+  db.collection("users")
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        if (!doc.data().reminders) return;
+
+        doc.data().reminders.map(async (reminder) => {
+          console.log(
+            moment(
+              `${reminder.datetime.split(" ")[0].split(".")[2]}-${
+                reminder.datetime.split(" ")[0].split(".")[1]
+              }-${reminder.datetime.split(" ")[0].split(".")[0]} ${
+                reminder.datetime.split(" ")[1].split(".")[0]
+              }:${reminder.datetime.split(" ")[1].split(".")[1]}`
+            ).unix() < moment().unix()
+          );
+          if (
+            moment(
+              `${reminder.datetime.split(" ")[0].split(".")[2]}-${
+                reminder.datetime.split(" ")[0].split(".")[1]
+              }-${reminder.datetime.split(" ")[0].split(".")[0]} ${
+                reminder.datetime.split(" ")[1].split(".")[0]
+              }:${reminder.datetime.split(" ")[1].split(".")[1]}`
+            ).unix() < moment().unix()
+          ) {
+            let user = await bot.users.fetch(doc.id);
+            user.send(reminder.message);
+            reminder.delete();
+          }
+        });
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
 async function dailyMessage() {
   var db = firebase.firestore();
   db.collection("users")
     .get()
     .then((querySnapshot) => {
-      let user;
       querySnapshot.forEach(async (doc) => {
-        if (!doc.data().enabled || doc.data().sent) return;
-        user = await bot.users.fetch(doc.id);
+        if (!doc.data().enabled) return;
+        let user = await bot.users.fetch(doc.id);
         let embed = new Discord.MessageEmbed()
           .setTitle(`Good morning ${user.username}!`)
           .setColor(0xf66464)
           .setFooter(moment().format("MMMM Do YYYY, HH:mm:ss"));
-        axios
+        await axios
           .get(
             `http://api.openweathermap.org/data/2.5/forecast?cnt=1&q=${
               doc.data().location
@@ -85,7 +126,13 @@ async function dailyMessage() {
               .setThumbnail(
                 `https://openweathermap.org/img/wn/${response.data.list[0].weather[0].icon}@2x.png`
               );
-            user.send(embed);
+            axios
+              .get(`https://redpanda.pics/random`)
+              .then((response) => {
+                embed.setImage(response.data.url);
+                user.send(embed);
+              })
+              .catch((err) => console.log(err));
           })
           .catch((err) => console.log(err));
       });

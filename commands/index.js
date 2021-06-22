@@ -23,7 +23,6 @@ module.exports = {
   Sus: require("./sus"),
   Play: require("./play"),
   SetLocation: require("./setlocation"),
-  SetBirthday: require("./setbirthday"),
   Avatar: require("./avatar"),
   Price: require("./price"),
   InviteCrypto: require("./invitecrypto"),
