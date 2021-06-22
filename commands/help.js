@@ -30,7 +30,7 @@ module.exports = {
       )
       .addField(
         "__Reminder__",
-        '**>reminders** : "Shows your reminders"\n**>addreminder [date] [time] [message]** : "Adds a new reminder"\n**>deletereminder [id]** : "Deletes the given reminder"\n**>deleteallreminders** : "Deletes all your reminders"',
+        '**>reminder** : "Shows your reminder"\n**>addreminder [date] [time] [message]** : "Adds a new reminder"\n**>deletereminder** : "Deletes your reminder"',
         false
       )
       .addField(

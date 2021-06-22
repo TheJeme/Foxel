@@ -30,10 +30,10 @@ bot.on("ready", async () => {
   bot.user.setActivity(`${prefix}help`);
   setInterval(function () {
     dailyMessage();
-  }, 60000);
+  }, 1000 * 60 * 60 * 24); // every 24 hours
   setInterval(function () {
     checkReminders();
-  }, 1000);
+  }, 10000); // every ten seconds
 });
 
 bot.on("message", (msg) => {
@@ -84,7 +84,9 @@ async function checkReminders() {
           ) {
             let user = await bot.users.fetch(doc.id);
             user.send(reminder.message);
-            reminder.delete();
+            db.collection("users")
+              .doc(user.id)
+              .update({ reminders: firebase.firestore.FieldValue.delete() });
           }
         });
       });
@@ -103,7 +105,7 @@ async function dailyMessage() {
         if (!doc.data().enabled) return;
         let user = await bot.users.fetch(doc.id);
         let embed = new Discord.MessageEmbed()
-          .setTitle(`Good morning ${user.username}!`)
+          .setTitle(`Hello ${user.username}!`)
           .setColor(0xf66464)
           .setFooter(moment().format("MMMM Do YYYY, HH:mm:ss"));
         await axios

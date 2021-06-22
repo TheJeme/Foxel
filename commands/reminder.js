@@ -2,22 +2,26 @@ const Discord = require("discord.js");
 const firebase = require("firebase");
 
 module.exports = {
-  name: "reminders",
-  description: "Shows all reminders.",
+  name: "reminder",
+  description: "Shows the reminder.",
   execute(msg, args) {
     var db = firebase.firestore();
     db.collection("users")
       .doc(msg.author.id)
       .get()
       .then((doc) => {
+        if (!doc.data().reminders) {
+          msg.channel.send(
+            "You don't have reminder set.\nMake one with: **>addreminder [date] [time] [message]**"
+          );
+          return;
+        }
+
         let embed = new Discord.MessageEmbed()
-          .setTitle(`Reminders`)
+          .setTitle(`Reminder`)
           .setColor(0xf66464);
         doc.data().reminders.map((reminder, index) => {
-          embed.addField(
-            `[${index + 1}]`,
-            `__${reminder.datetime}__: ${reminder.message}`
-          );
+          embed.addField(`**${reminder.datetime}**`, `${reminder.message}`);
         });
         msg.channel.send(embed);
       });

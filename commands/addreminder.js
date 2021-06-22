@@ -30,16 +30,16 @@ module.exports = {
       .doc(msg.author.id)
       .get()
       .then((doc) => {
-        if (doc.data().reminders && doc.data().reminders.length >= 20) {
+        if (doc.data().reminders) {
           msg.channel.send(
-            "You have too many reminders at the moment! You can't add more yet."
+            "You already have an reminder.\nLook it with **>reminder**\nDelete it with: **>deletereminder**"
           );
           return;
         }
         const _datetime = `${args[0]} ${args[1]}`;
         const _message = args.slice(2).join(" ");
-        if (_message.length > 75) {
-          msg.channel.send("Message is too long, max is 75.");
+        if (_message.length > 1000) {
+          msg.channel.send("Message is too long, max is 1000.");
           return;
         }
         db.collection("users")
