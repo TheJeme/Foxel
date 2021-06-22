@@ -1,5 +1,3 @@
-const ytdl = require("ytdl-core");
-
 module.exports = {
   name: "join",
   description: "Joins voice channel.",

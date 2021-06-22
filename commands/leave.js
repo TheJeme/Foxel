@@ -1,5 +1,3 @@
-const ytdl = require("ytdl-core");
-
 module.exports = {
   name: "leave",
   description: "Leaves voice channel.",

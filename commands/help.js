@@ -34,11 +34,6 @@ module.exports = {
         false
       )
       .addField(
-        "__Anime__",
-        '**>waifu [tag]** : "Sends waifu with given tag"\n',
-        false
-      )
-      .addField(
         "__Personal__",
         '**>setlocation [city] [country code]** : "Sets your default location for weather"\n**>setbirthday [day] [month]** : "Sets your birthday for a nice surprise."\n**>enable** : "Enables daily message from me"\n**>disable** : "Disables daily message from me"',
         false
@@ -50,7 +45,7 @@ module.exports = {
       )
       .addField(
         "__Misc__",
-        '**>fox** : "Sends a picture of fox"\n**>weather [city] [country code]** : "Shows weather in the given place"\n**>color [hex/rgb]** : "Sends a picture of given color"\n**>tp** : "Shows time in percentages"',
+        '**>fox** : "Sends a picture of fox"\n**>waifu** : "Sends a picture of waifu"\n**>weather [city] [country code]** : "Shows weather in the given place"\n**>color [hex/rgb]** : "Sends a picture of given color"\n**>tp** : "Shows time in percentages"',
         false
       )
       .setFooter("For more specific info, type: help [command]");
