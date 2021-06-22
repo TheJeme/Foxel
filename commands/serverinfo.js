@@ -4,6 +4,10 @@ module.exports = {
   name: "serverinfo",
   description: "Shows server info.",
   execute(msg, args) {
+    if (!msg.guild) {
+      msg.channel.send("This command can only be used in server!");
+      return;
+    }
     let embed = new Discord.MessageEmbed()
       .setTitle("Server Information")
       .setColor(0xf66464)

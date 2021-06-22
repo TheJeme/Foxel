@@ -29,4 +29,7 @@ module.exports = {
   InviteCrypto: require("./invitecrypto"),
   Weather: require("./weather"),
   Wc: require("./wc"),
+  Join: require("./join"),
+  Pause: require("./pause"),
+  Resume: require("./resume"),
 };
