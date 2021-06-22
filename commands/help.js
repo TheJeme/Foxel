@@ -19,11 +19,6 @@ module.exports = {
         false
       )
       .addField(
-        "__Music__",
-        '**>play [youtube_video]** : "Plays a song with the given name or url"\n**>skip** : "Skips the current song"\n**>loop** : "Loops the current song"\n**>np** : "Shows what song is currently playing"\n**>join** : "Joins the voice channel"\n**>leave** : "Leaves the voice channel"',
-        false
-      )
-      .addField(
         "__Crypto__",
         '**>price [crypto] [currency]** : "Shows current price of given crypto"\n**>invitecrypto [crypto]** : "Sends invitation link for bot that shows current price of given crypto."\n',
         false
