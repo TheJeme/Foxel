@@ -1,6 +1,7 @@
 require("dotenv").config();
 const Discord = require("discord.js");
 const moment = require("moment");
+const axios = require("axios");
 const firebase = require("firebase");
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
@@ -27,7 +28,9 @@ bot.login(TOKEN);
 bot.on("ready", async () => {
   console.info(`Logged in as ${bot.user.tag}!`);
   bot.user.setActivity(`${prefix}help`);
-  await dailyMessage();
+  setInterval(function () {
+    dailyMessage();
+  }, 10000);
 });
 
 bot.on("message", (msg) => {
@@ -56,17 +59,35 @@ async function dailyMessage() {
     .then((querySnapshot) => {
       let user;
       querySnapshot.forEach(async (doc) => {
-        console.log(doc.id);
-        if (!doc.data().enabled) return;
+        if (!doc.data().enabled || doc.data().sent) return;
         user = await bot.users.fetch(doc.id);
-        const embed = new Discord.MessageEmbed()
+        let embed = new Discord.MessageEmbed()
           .setTitle(`Good morning ${user.username}!`)
-          .setDescription(
-            "Today weather is clouds, and temperature will be 23/31°C. Have a great day!"
-          )
           .setColor(0xf66464)
           .setFooter(moment().format("MMMM Do YYYY, HH:mm:ss"));
-        user.send(embed);
+        axios
+          .get(
+            `http://api.openweathermap.org/data/2.5/forecast?cnt=1&q=${
+              doc.data().location
+            }&units=metric&appid=${process.env.OPEN_WEATHER_API_KEY}`
+          )
+          .then((response) => {
+            embed
+              .setDescription(
+                `Today weather is ${
+                  response.data.list[0].weather[0].main
+                } and temperature will be ${Math.round(
+                  response.data.list[0].main.temp_min
+                )}/${Math.round(
+                  response.data.list[0].main.temp_max
+                )}°C.\nHave a great day!`
+              )
+              .setThumbnail(
+                `https://openweathermap.org/img/wn/${response.data.list[0].weather[0].icon}@2x.png`
+              );
+            user.send(embed);
+          })
+          .catch((err) => console.log(err));
       });
     });
 }

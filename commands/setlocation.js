@@ -14,9 +14,11 @@ module.exports = {
     db.collection("users")
       .doc(msg.author.id)
       .update({
-        location: `${args[0]}, ${args[1]}`,
+        location: `${args[0]},${args[1].toUpperCase()}`,
       });
 
-    msg.channel.send(`Your location is set to ${args[0]}, ${args[1]}`);
+    msg.channel.send(
+      `Your location is set to ${args[0]}, ${args[1].toUpperCase()}`
+    );
   },
 };

@@ -48,7 +48,7 @@ module.exports = {
         '**>fox** : "Sends a picture of fox"\n**>waifu** : "Sends a picture of waifu"\n**>weather [city] [country code]** : "Shows weather in the given place"\n**>color [hex/rgb]** : "Sends a picture of given color"\n**>tp** : "Shows time in percentages"',
         false
       )
-      .setFooter("For more specific info, type: help [command]");
+      .setFooter("For more specific info, check: https://jemedev.netlify.com");
     msg.channel.send(embed);
   },
 };

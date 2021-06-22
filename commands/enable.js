@@ -12,6 +12,7 @@ module.exports = {
 
     db.collection("users").doc(msg.author.id).update({
       enabled: true,
+      sent: false,
     });
     msg.channel.send(
       "Daily messages has been enabled!\nDisable them with **>disable**"
