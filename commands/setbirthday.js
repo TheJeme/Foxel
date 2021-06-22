@@ -1,4 +1,5 @@
 const moment = require("moment");
+const firebase = require("firebase");
 
 module.exports = {
   name: "setbirthday",
@@ -11,6 +12,15 @@ module.exports = {
       return;
     }
     let date = moment(`2021-${args[1]}-${args[0]}`).format("MMMM Do");
+
+    var db = firebase.firestore();
+
+    db.collection("users")
+      .doc(msg.author.id)
+      .update({
+        birthday: moment(`2021-${args[1]}-${args[0]}`).format("MM.DD"),
+      });
+
     msg.channel.send(`Your birthday is set to ${date}`);
   },
 };

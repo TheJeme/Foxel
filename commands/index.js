@@ -33,4 +33,8 @@ module.exports = {
   Pause: require("./pause"),
   Resume: require("./resume"),
   Leave: require("./leave"),
+  Addreminder: require("./addreminder"),
+  Showreminders: require("./showreminders"),
+  Deletereminder: require("./deletereminder"),
+  Deleteallreminders: require("./deleteallreminders"),
 };
