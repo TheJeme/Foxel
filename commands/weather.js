@@ -26,7 +26,10 @@ module.exports = {
             "Temperature",
             `${Math.round(response.data.list[0].main.temp)}°C`
           )
-          .addField("Wind", `${response.data.list[0].wind.speed} m/s`)
+          .addField(
+            "Wind",
+            `${response.data.list[0].wind.speed.toFixed(1)} m/s`
+          )
           .addField("Weather", `${response.data.list[0].weather[0].main}`)
           .addField(
             "More info",

@@ -40,7 +40,7 @@ module.exports = {
             }`
           )
           .setColor(0xf66464)
-          .setThumbnail(response.data.image.thumb)
+          .setThumbnail(response.data.image.large)
           .addField("Rank", rank)
           .addField("Price", price)
           .addField("Price Change (24h)", pricechange)

@@ -10,7 +10,7 @@ module.exports = {
       .setColor(0xf66464)
       .addField(
         "__General__",
-        '**>serverinfo** : "Shows information about this server"\n**>userinfo [@user]** : "Shows information about given user"\n**>botinfo** : "Shows information about this bot"\n**>avatar [@user]** : "Shows tagged user avatar"\n**>invite** : "Sends my invitation link"\n',
+        '**>serverinfo** : "Shows information about this server"\n**>userinfo [@user]** : "Shows information about given user"\n**>botinfo** : "Shows information about this bot"\n**>avatar [@user]** : "Shows given user avatar"\n**>invite** : "Sends my invitation link"\n',
         false
       )
       .addField(
@@ -30,7 +30,7 @@ module.exports = {
       )
       .addField(
         "__Reminder__",
-        '**>showreminders** : "Shows your reminders"\n**>addreminder [date] [time] [message]** : "Adds new reminder"\n**>deletereminder [id]** : "Deletes the given reminder"\n**>deleteallreminders** : "Deletes all your reminders"',
+        '**>reminders** : "Shows your reminders"\n**>addreminder [date] [time] [message]** : "Adds a new reminder"\n**>deletereminder [id]** : "Deletes the given reminder"\n**>deleteallreminders** : "Deletes all your reminders"',
         false
       )
       .addField(

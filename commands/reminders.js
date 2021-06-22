@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 const firebase = require("firebase");
 
 module.exports = {
-  name: "showreminders",
+  name: "reminders",
   description: "Shows all reminders.",
   execute(msg, args) {
     var db = firebase.firestore();
@@ -16,7 +16,7 @@ module.exports = {
         doc.data().reminders.map((reminder, index) => {
           embed.addField(
             `[${index + 1}]`,
-            reminder.datetime + ": " + reminder.message
+            `__${reminder.datetime}__: ${reminder.message}`
           );
         });
         msg.channel.send(embed);
