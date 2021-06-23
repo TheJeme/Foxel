@@ -65,15 +65,6 @@ async function checkReminders() {
         if (!doc.data().reminders) return;
 
         doc.data().reminders.map(async (reminder) => {
-          console.log(
-            moment(
-              `${reminder.datetime.split(" ")[0].split(".")[2]}-${
-                reminder.datetime.split(" ")[0].split(".")[1]
-              }-${reminder.datetime.split(" ")[0].split(".")[0]} ${
-                reminder.datetime.split(" ")[1].split(".")[0]
-              }:${reminder.datetime.split(" ")[1].split(".")[1]}`
-            ).unix() < moment().unix()
-          );
           if (
             moment(
               `${reminder.datetime.split(" ")[0].split(".")[2]}-${
