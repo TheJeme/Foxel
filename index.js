@@ -28,6 +28,7 @@ bot.login(TOKEN);
 bot.on("ready", async () => {
   console.info(`Logged in as ${bot.user.tag}!`);
   bot.user.setActivity(`${prefix}help`);
+  dailyMessage();
   setInterval(function () {
     dailyMessage();
   }, 1000 * 60 * 60 * 24); // every 24 hours
@@ -102,7 +103,7 @@ async function dailyMessage() {
     .get()
     .then((querySnapshot) => {
       querySnapshot.forEach(async (doc) => {
-        if (!doc.data().enabled) return;
+        if (!doc.data().enabled || !doc.data().location) return;
         let user = await bot.users.fetch(doc.id);
         let embed = new Discord.MessageEmbed()
           .setTitle(`Hello ${user.username}!`)
@@ -134,9 +135,16 @@ async function dailyMessage() {
                 embed.setImage(response.data.url);
                 user.send(embed);
               })
-              .catch((err) => console.log(err));
+              .catch((err) => {
+                console.log(err);
+              });
           })
-          .catch((err) => console.log(err));
+          .catch((err) => {
+            console.log(err);
+            user.send(
+              "Please fix your invalid location with: **>setlocation [city] [country code]**"
+            );
+          });
       });
     });
 }

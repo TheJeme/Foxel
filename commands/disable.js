@@ -10,9 +10,12 @@ module.exports = {
     }
     var db = firebase.firestore();
 
-    db.collection("users").doc(msg.author.id).update({
-      enabled: false,
-    });
+    db.collection("users").doc(msg.author.id).set(
+      {
+        enabled: false,
+      },
+      { merge: true }
+    );
 
     msg.channel.send(
       "Daily messages has been disabled!\nEnable them with **>enable**"
