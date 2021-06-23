@@ -34,7 +34,7 @@ bot.on("ready", async () => {
   }, 1000 * 60 * 60 * 24); // every 24 hours
   setInterval(function () {
     checkReminders();
-  }, 10000); // every ten seconds
+  }, 60000); // every 1 minute
 });
 
 bot.on("message", (msg) => {
