@@ -28,7 +28,6 @@ bot.login(TOKEN);
 bot.on("ready", async () => {
   console.info(`Logged in as ${bot.user.tag}!`);
   bot.user.setActivity(`${prefix}help`);
-  dailyMessage();
   setInterval(function () {
     dailyMessage();
   }, 1000 * 60 * 60 * 24); // every 24 hours

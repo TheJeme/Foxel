@@ -44,7 +44,7 @@ module.exports = {
         false
       )
       .setFooter(
-        "For more specific info, check: https://thejeme.github.io/foxel-website"
+        "For more info, check: https://thejeme.github.io/foxel-website"
       );
     msg.channel.send(embed);
   },
