@@ -24,16 +24,6 @@ module.exports = {
         false
       )
       .addField(
-        "__Reminder__",
-        '**>reminder** : "Shows your reminder"\n**>addreminder [date] [time] [message]** : "Adds a new reminder"\n**>deletereminder** : "Deletes your reminder"',
-        false
-      )
-      .addField(
-        "__Personal__",
-        '**>setlocation [city] [country code]** : "Sets your default location for weather"\n**>enable** : "Enables daily message from me"\n**>disable** : "Disables daily message from me"',
-        false
-      )
-      .addField(
         "__Text__",
         '**>wc [message]** : "Shows word and character count"\n**>reverse [message]** : "Reverses the given message"\n',
         false
