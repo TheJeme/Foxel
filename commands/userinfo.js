@@ -37,7 +37,9 @@ module.exports = {
       .setColor(0xf66464)
       .addFields(
         { name: "Name", value: user.username, inline: true },
-        { name: "ID", value: user.id, inline: true }
+        { name: "ID", value: user.id, inline: true },
+        { name: "Created on", value: user.createdAt.toDateString(), inline: true },
+        { name: "Status", value: user.presence.status, inline: true }
       );
     msg.channel.send({ embeds: [embed] });
   },
