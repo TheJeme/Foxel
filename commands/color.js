@@ -1,4 +1,3 @@
-const Discord = require("discord.js");
 const rgbToHex = require("rgb-to-hex");
 
 module.exports = {
