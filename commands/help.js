@@ -1,41 +1,42 @@
-const Discord = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
   name: "help",
   description: "Help, shows all non-secret commands",
   execute(msg, args, bot) {
-    const embed = new Discord.MessageEmbed()
+    const embed = new EmbedBuilder()
       .setTitle("Help")
-      .setAuthor("Foxel Commands", bot.user.displayAvatarURL())
+      .setAuthor({ name: "Foxel Commands", iconURL: bot.user.displayAvatarURL() })
       .setColor(0xf66464)
-      .addField(
-        "__General__",
-        '**>serverinfo** : "Shows information about this server"\n**>userinfo [@user]** : "Shows information about given user"\n**>botinfo** : "Shows information about this bot"\n**>avatar [@user]** : "Shows given user avatar"\n**>invite** : "Sends my invitation link"\n',
-        false
+      .addFields(
+        {
+          name: "__General__",
+          value: '**>serverinfo** : "Shows information about this server"\n**>userinfo [@user]** : "Shows information about given user"\n**>botinfo** : "Shows information about this bot"\n**>avatar [@user]** : "Shows given user avatar"\n**>invite** : "Sends my invitation link"',
+          inline: false
+        },
+        {
+          name: "__Fun__",
+          value: '**>coinflip** : "Flips a coin"\n**>dice** : "Rolls a dice"\n**>random [min] [max]** : "Generates random number"',
+          inline: false
+        },
+        {
+          name: "__Crypto__",
+          value: '**>price [crypto] [currency]** : "Shows current price of given crypto"\n**>invitecrypto [crypto]** : "Sends invitation link for bot that shows current price of given crypto"',
+          inline: false
+        },
+        {
+          name: "__Text__",
+          value: '**>wc [message]** : "Shows word and character count"\n**>reverse [message]** : "Reverses the given message"',
+          inline: false
+        },
+        {
+          name: "__Misc__",
+          value: '**>fox** : "Sends a picture of fox"\n**>waifu** : "Sends a picture of waifu"\n**>neko** : "Sends a picture of neko"\n**>weather [city] [country]** : "Shows weather in the given place"\n**>color [hex/rgb]** : "Sends a picture of given color"\n**>tp** : "Shows time in percentages"',
+          inline: false
+        }
       )
-      .addField(
-        "__Fun__",
-        '**>coinflip** : "Flips a coin"\n**>dice** : "Rolls a dice"\n**>random [min] [max]** : "Generates random number"',
-        false
-      )
-      .addField(
-        "__Crypto__",
-        '**>price [crypto] [currency]** : "Shows current price of given crypto"\n**>invitecrypto [crypto]** : "Sends invitation link for bot that shows current price of given crypto"\n',
-        false
-      )
-      .addField(
-        "__Text__",
-        '**>wc [message]** : "Shows word and character count"\n**>reverse [message]** : "Reverses the given message"\n',
-        false
-      )
-      .addField(
-        "__Misc__",
-        '**>fox** : "Sends a picture of fox"\n**>waifu** : "Sends a picture of waifu"\n**>neko** : "Sends a picture of neko"\n**>weather [city] [country]** : "Shows weather in the given place"\n**>color [hex/rgb]** : "Sends a picture of given color"\n**>tp** : "Shows time in percentages"',
-        false
-      )
-      .setFooter(
-        "For more info, check: https://foxel.jeme.app"
-      );
-    msg.channel.send(embed);
+      .setFooter({ text: "For more info, check: https://foxel.jeme.app" });
+
+    msg.channel.send({ embeds: [embed] });
   },
 };

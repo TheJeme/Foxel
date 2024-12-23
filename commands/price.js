@@ -1,4 +1,4 @@
-const Discord = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const axios = require("axios");
 const moment = require("moment");
 
@@ -32,7 +32,7 @@ module.exports = {
           response.data.market_data.price_change_percentage_24h_in_currency[
             currency
           ].toFixed(2) + "%";
-        let embed = new Discord.MessageEmbed()
+        let embed = new EmbedBuilder()
           .setTitle(
             `${
               crypto.toLowerCase().charAt(0).toUpperCase() +
@@ -41,11 +41,13 @@ module.exports = {
           )
           .setColor(0xf66464)
           .setThumbnail(response.data.image.large)
-          .addField("Rank", rank)
-          .addField("Price", price)
-          .addField("Price Change (24h)", pricechange)
-          .setFooter(moment().format("MMMM Do YYYY, HH:mm:ss"));
-        msg.channel.send(embed);
+          .addFields(
+            { name: "Rank", value: rank.toString(), inline: true },
+            { name: "Price", value: price, inline: true },
+            { name: "Price Change (24h)", value: pricechange, inline: true }
+          )
+          .setFooter({ text: moment().format("MMMM Do YYYY, HH:mm:ss") });
+        msg.channel.send({ embeds: [embed] });
       })
       .catch((err) => console.log(err));
   },

@@ -1,4 +1,4 @@
-const Discord = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
   name: "random",
@@ -9,17 +9,17 @@ module.exports = {
       return;
     }
 
-    let embed = new Discord.MessageEmbed()
-      .setAuthor(
-        `${msg.author.username}#${msg.author.discriminator}`,
-        msg.author.displayAvatarURL()
-      )
+    let embed = new EmbedBuilder()
+      .setAuthor({
+        name: `${msg.author.username}`,
+        iconURL: msg.author.displayAvatarURL(),
+      })
       .setColor(0xf66464)
       .setDescription(
-        `You got ${Math.floor(
-          Math.random() * (args[1] - args[0] + 1) + args[0]
-        )}.`
+        `You got **${Math.floor(
+          Math.random() * (args[1] - args[0] + 1) + parseInt(args[0])
+        )}**.`
       );
-    msg.channel.send(embed);
+    msg.channel.send({ embeds: [embed] });
   },
 };

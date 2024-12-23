@@ -9,9 +9,7 @@ module.exports = {
       return;
     }
     const baseString = args.join(" ");
-    const splitString = baseString.split("");
-    const reversedSplitString = splitString.reverse();
-    const reversedString = reversedSplitString.join("");
+    const reversedString = baseString.split("").reverse().join("");
     msg.channel.send(reversedString);
   },
 };

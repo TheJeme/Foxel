@@ -1,4 +1,4 @@
-const Discord = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const moment = require("moment");
 
 function leapYear(year) {
@@ -80,17 +80,19 @@ module.exports = {
   name: "tp",
   description: "Shows time in percentages.",
   execute(msg, args, bot) {
-    let embed = new Discord.MessageEmbed()
-      .setAuthor("Time in percentages", bot.user.avatarURL)
+    let embed = new EmbedBuilder()
+      .setAuthor({ name: "Time in percentages", iconURL: bot.user.avatarURL() })
       .setColor(0xf66464)
-      .addField("Minute", minute())
-      .addField("Hour", hour())
-      .addField("Day", day())
-      .addField("Week", week())
-      .addField("Month", month())
-      .addField("Year", year())
-      .addField("Decade", decade())
-      .setFooter(moment().format("MMMM Do YYYY, HH:mm:ss"));
-    msg.channel.send(embed);
+      .addFields(
+        { name: "Minute", value: minute(), inline: true },
+        { name: "Hour", value: hour(), inline: true },
+        { name: "Day", value: day(), inline: true },
+        { name: "Week", value: week(), inline: true },
+        { name: "Month", value: month(), inline: true },
+        { name: "Year", value: year(), inline: true },
+        { name: "Decade", value: decade(), inline: true }
+      )
+      .setFooter({ text: moment().format("MMMM Do YYYY, HH:mm:ss") });
+    msg.channel.send({ embeds: [embed] });
   },
 };

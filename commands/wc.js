@@ -1,4 +1,4 @@
-const Discord = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
   name: "wc",
@@ -18,12 +18,14 @@ module.exports = {
     const charCountWithSpaces = fullMessage.length;
     const charCountWithoutSpaces = fullMessage.replace(/\s/g, "").length;
 
-    const embed = new Discord.MessageEmbed()
-      .setAuthor("Text Statistics", bot.user.displayAvatarURL())
+    const embed = new EmbedBuilder()
+      .setAuthor({ name: "Text Statistics", iconURL: bot.user.displayAvatarURL() })
       .setColor(0xf66464)
-      .addField("Word Count", wordCount)
-      .addField("Character Count (with spaces)", charCountWithSpaces)
-      .addField("Character Count (without spaces)", charCountWithoutSpaces);
-    msg.channel.send(embed);
+      .addFields(
+        { name: "Word Count", value: wordCount.toString(), inline: true },
+        { name: "Character Count (with spaces)", value: charCountWithSpaces.toString(), inline: true },
+        { name: "Character Count (without spaces)", value: charCountWithoutSpaces.toString(), inline: true }
+      );
+    msg.channel.send({ embeds: [embed] });
   },
 };
