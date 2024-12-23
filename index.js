@@ -3,6 +3,8 @@ const { Client, GatewayIntentBits, Collection } = require("discord.js");
 
 const bot = new Client({
   intents: [
+    GatewayIntentBits.DirectMessages,
+    GatewayIntentBits.DirectMessageReactions,
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent,
