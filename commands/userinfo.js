@@ -11,7 +11,9 @@ module.exports = {
         .setColor(0xf66464)
         .addFields(
           { name: "Name", value: msg.author.username, inline: true },
-          { name: "ID", value: msg.author.id, inline: true }
+          { name: "ID", value: msg.author.id, inline: true },
+          { name: "Created on", value: msg.author.createdAt.toDateString(), inline: true },
+          { name: "Status", value: msg.author.presence.status, inline: true }
         );
       msg.channel.send({ embeds: [embed] });
       return;
