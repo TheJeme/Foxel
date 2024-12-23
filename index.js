@@ -1,16 +1,18 @@
 require("dotenv").config();
-const Discord = require("discord.js");
-const { Intents } = require("discord.js");
-const bot = new Discord.Client({
+const { Client, GatewayIntentBits, Collection } = require("discord.js");
+
+const bot = new Client({
   intents: [
-    Intents.FLAGS.GUILDS,
-    Intents.FLAGS.GUILD_MESSAGES,
-    Intents.FLAGS.MESSAGE_CONTENT,
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
   ],
 });
-bot.commands = new Discord.Collection();
+
+bot.commands = new Collection();
 const botCommands = require("./commands");
 const prefix = ">";
+
 Object.keys(botCommands).forEach((key) => {
   bot.commands.set(`${prefix}${botCommands[key].name}`, botCommands[key]);
 });
