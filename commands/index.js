@@ -1,3 +1,5 @@
+const pate = require("./pate");
+
 module.exports = {
   Ping: require("./ping"),
   Jeme: require("./jeme"),
@@ -21,7 +23,6 @@ module.exports = {
   Hentai: require("./hentai"),
   Tp: require("./tp"),
   Sus: require("./sus"),
-  SetLocation: require("./setlocation"),
   Avatar: require("./avatar"),
   Price: require("./price"),
   InviteCrypto: require("./invitecrypto"),
@@ -29,4 +30,11 @@ module.exports = {
   Wc: require("./wc"),
   Join: require("./join"),
   Leave: require("./leave"),
+  Pate: require("./pate"),
+  Jenna: require("./jenna"),
+  Skruiba: require("./skruiba"),
+  Tuukka: require("./tuukka"),
+  Miksu: require("./miksu"),
+  Rosa: require("./rosa"),
+  Roosa: require("./roosa"),
 };

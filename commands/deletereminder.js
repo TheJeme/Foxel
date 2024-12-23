@@ -4,7 +4,7 @@ module.exports = {
   name: "deletereminder",
   description: "Deletes the reminder.",
   execute(msg, args) {
-    var db = firebase.firestore();
+    const db = firebase.firestore();
     db.collection("users")
       .doc(msg.author.id)
       .update({ reminders: firebase.firestore.FieldValue.delete() });

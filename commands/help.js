@@ -30,11 +30,11 @@ module.exports = {
       )
       .addField(
         "__Misc__",
-        '**>fox** : "Sends a picture of fox"\n**>waifu** : "Sends a picture of waifu"\n**>weather [city] [country code]** : "Shows weather in the given place"\n**>color [hex/rgb]** : "Sends a picture of given color"\n**>tp** : "Shows time in percentages"',
+        '**>fox** : "Sends a picture of fox"\n**>waifu** : "Sends a picture of waifu"\n**>neko** : "Sends a picture of neko"\n**>weather [city] [country]** : "Shows weather in the given place"\n**>color [hex/rgb]** : "Sends a picture of given color"\n**>tp** : "Shows time in percentages"',
         false
       )
       .setFooter(
-        "For more info, check: https://thejeme.github.io/foxel-website"
+        "For more info, check: https://foxel.jeme.app"
       );
     msg.channel.send(embed);
   },

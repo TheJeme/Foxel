@@ -7,7 +7,7 @@ const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
 const botCommands = require("./commands");
 const prefix = ">";
-Object.keys(botCommands).map((key) => {
+Object.keys(botCommands).forEach((key) => {
   bot.commands.set(`${prefix}${botCommands[key].name}`, botCommands[key]);
 });
 
@@ -26,13 +26,13 @@ firebase.initializeApp({
 bot.login(TOKEN);
 
 bot.on("ready", async () => {
-  console.info(`Logged in as ${bot.user.tag}!`);
+  console.info(`Logged in as ${bot.user.tag}`);
   bot.user.setActivity(`${prefix}help`);
   setInterval(function () {
-    dailyMessage();
+    // dailyMessage();
   }, 1000 * 60 * 60 * 24); // every 24 hours
   setInterval(function () {
-    checkReminders();
+    // checkReminders();
   }, 60000); // every 1 minute
 });
 
@@ -56,7 +56,7 @@ bot.on("message", (msg) => {
 });
 
 async function checkReminders() {
-  var db = firebase.firestore();
+  const db = firebase.firestore();
   db.collection("users")
     .get()
     .then((querySnapshot) => {
@@ -88,7 +88,7 @@ async function checkReminders() {
 }
 
 async function dailyMessage() {
-  var db = firebase.firestore();
+  const db = firebase.firestore();
   db.collection("users")
     .get()
     .then((querySnapshot) => {
@@ -132,7 +132,7 @@ async function dailyMessage() {
           .catch((err) => {
             console.log(err);
             user.send(
-              "Please fix your invalid location with: **>setlocation [city] [country code]**"
+              "Please fix your invalid location with: **>setlocation [city] [country]**"
             );
           });
       });

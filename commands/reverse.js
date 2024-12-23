@@ -8,10 +8,10 @@ module.exports = {
       );
       return;
     }
-    var baseString = args.join(" ");
-    var splitString = baseString.split("");
-    var reversedSplitString = splitString.reverse();
-    var reversedString = reversedSplitString.join("");
+    const baseString = args.join(" ");
+    const splitString = baseString.split("");
+    const reversedSplitString = splitString.reverse();
+    const reversedString = reversedSplitString.join("");
     msg.channel.send(reversedString);
   },
 };

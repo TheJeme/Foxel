@@ -5,7 +5,7 @@ module.exports = {
   name: "reminder",
   description: "Shows the reminder.",
   execute(msg, args) {
-    var db = firebase.firestore();
+    const db = firebase.firestore();
     db.collection("users")
       .doc(msg.author.id)
       .get()

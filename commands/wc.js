@@ -10,17 +10,20 @@ module.exports = {
       );
       return;
     }
-    var fullMessage = args.join(" ");
-    console.log(fullMessage);
+    let fullMessage = args.join(" ");
+
+    // Trim the message to remove leading/trailing spaces and split by spaces
+    const words = fullMessage.trim().split(/\s+/);
+    const wordCount = words.length;
+    const charCountWithSpaces = fullMessage.length;
+    const charCountWithoutSpaces = fullMessage.replace(/\s/g, "").length;
+
     const embed = new Discord.MessageEmbed()
       .setAuthor("Text Statistics", bot.user.displayAvatarURL())
       .setColor(0xf66464)
-      .addField("Word Count", fullMessage.split(" ").length)
-      .addField("Character Count (with spaces)", fullMessage.length)
-      .addField(
-        "Character Count (without spaces)",
-        fullMessage.replace(/\s/g, "").length
-      );
+      .addField("Word Count", wordCount)
+      .addField("Character Count (with spaces)", charCountWithSpaces)
+      .addField("Character Count (without spaces)", charCountWithoutSpaces);
     msg.channel.send(embed);
   },
 };

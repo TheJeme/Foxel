@@ -8,7 +8,7 @@ module.exports = {
       msg.channel.send("This command can only be used in my direct messages!");
       return;
     }
-    var db = firebase.firestore();
+    const db = firebase.firestore();
 
     db.collection("users").doc(msg.author.id).set(
       {

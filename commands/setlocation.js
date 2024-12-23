@@ -9,7 +9,7 @@ module.exports = {
       return;
     }
 
-    var db = firebase.firestore();
+    const db = firebase.firestore();
 
     db.collection("users")
       .doc(msg.author.id)
