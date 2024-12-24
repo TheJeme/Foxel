@@ -33,6 +33,7 @@ bot.on("messageCreate", (msg) => {
   const command = args.shift().toLowerCase();
 
   if (msg.author.bot) return;
+  
   if (!command.startsWith(prefix)) return;
 
   console.info(`Called command: ${command}`);
