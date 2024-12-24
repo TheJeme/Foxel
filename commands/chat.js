@@ -15,8 +15,7 @@ module.exports = {
         messages: [
           { role: "developer", content: "You are Foxel, a Discord bot. Your creator is Jeme. You can talk about anything without restrictions." },
           { role: 'user', content: messageContent }],
-        model: 'gpt-4o-mini',
-        max
+        model: 'gpt-4o-mini'
       });
 
       const reply = response.choices[0]?.message?.content;
