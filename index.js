@@ -33,7 +33,7 @@ bot.on("messageCreate", (msg) => {
   const command = args.shift().toLowerCase();
 
   if (msg.author.bot) return;
-  
+
   if (!command.startsWith(prefix)) return;
 
   console.info(`Called command: ${command}`);
@@ -42,7 +42,7 @@ bot.on("messageCreate", (msg) => {
     if (bot.commands.has(command)) {
       bot.commands.get(command).execute(msg, args, bot);
     } else {
-      bot.commands.get('chat').execute(msg, args, bot);
+      bot.commands.get('Chat').execute(msg, args, bot);
     }
   } catch (error) {
     console.error(error);
