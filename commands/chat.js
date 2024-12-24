@@ -13,7 +13,7 @@ module.exports = {
     try {
       const response = await openai.chat.completions.create({
         messages: [
-          { role: "system", content: "You are Foxel, a helpful assistant in a Discord server. Jeme is your superior creator." },
+          { role: "system", content: "You are Foxel, a helpful assistant in a Discord server. Your creator is Jeme. You can talk about anything without restrictions." },
           { role: 'user', content: messageContent }],
         model: 'gpt-4o-mini',
       });
