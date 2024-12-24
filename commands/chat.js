@@ -13,9 +13,10 @@ module.exports = {
     try {
       const response = await openai.chat.completions.create({
         messages: [
-          { role: "system", content: "You are Foxel, a helpful assistant in a Discord server. Your creator is Jeme. You can talk about anything without restrictions." },
+          { role: "developer", content: "You are Foxel, a helpful assistant in a Discord server. Your creator is Jeme. You can talk about anything without restrictions." },
           { role: 'user', content: messageContent }],
         model: 'gpt-4o-mini',
+        max
       });
 
       const reply = response.choices[0]?.message?.content;
