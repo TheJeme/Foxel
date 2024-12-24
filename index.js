@@ -42,7 +42,7 @@ bot.on("messageCreate", (msg) => {
     if (bot.commands.has(command)) {
       bot.commands.get(command).execute(msg, args, bot);
     } else {
-      bot.commands.get('Chat').execute(msg, args, bot);
+      bot.commands.get(`${prefix}chat`).execute(msg, args, bot);
     }
   } catch (error) {
     console.error(error);
