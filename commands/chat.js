@@ -6,7 +6,7 @@ const openai = new OpenAI({
 
 module.exports = {
   name: "chat",
-  description: "Interact with GPT-4o model",
+  description: "Interact with gpt-4o-mini model",
   async execute(msg, args, bot) { 
     const messageContent = msg.content.slice(1);
 

@@ -37,5 +37,9 @@ module.exports = {
   Miksu: require("./miksu"),
   Rosa: require("./rosa"),
   Roosa: require("./roosa"),
+  Kemokki: require("./kemokki"),
+  Dimitri: require("./dimitri"),
+  Jord: require("./jord"),
+  Prefix: require("./prefix"),
   Chat: require("./chat"),
 };
