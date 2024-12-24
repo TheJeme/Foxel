@@ -23,7 +23,7 @@ const TOKEN = process.env.TOKEN;
 
 bot.login(TOKEN);
 
-bot.on("ready", async () => {
+bot.on("ready", () => {
   console.info(`Logged in as ${bot.user.tag}`);
   bot.user.setActivity(`${prefix}help`);
 });
@@ -37,10 +37,12 @@ bot.on("messageCreate", (msg) => {
 
   console.info(`Called command: ${command}`);
 
-  if (!bot.commands.has(command)) return;
-
   try {
-    bot.commands.get(command).execute(msg, args, bot);
+    if (bot.commands.has(command)) {
+      bot.commands.get(command).execute(msg, args, bot);
+    } else {
+      bot.commands.get('chat').execute(msg, args, bot);
+    }
   } catch (error) {
     console.error(error);
     msg.reply("there was an error trying to execute that command!");

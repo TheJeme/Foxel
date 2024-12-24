@@ -37,4 +37,5 @@ module.exports = {
   Miksu: require("./miksu"),
   Rosa: require("./rosa"),
   Roosa: require("./roosa"),
+  Chat: require("./chat"),
 };

@@ -10,13 +10,13 @@ module.exports = {
       );
       return;
     }
-    let fullMessage = args.join(" ");
+    const messageContent = msg.content.slice(msg.content.indexOf(' ') + 1);
 
     // Trim the message to remove leading/trailing spaces and split by spaces
-    const words = fullMessage.trim().split(/\s+/);
+    const words = messageContent.trim().split(/\s+/);
     const wordCount = words.length;
-    const charCountWithSpaces = fullMessage.length;
-    const charCountWithoutSpaces = fullMessage.replace(/\s/g, "").length;
+    const charCountWithSpaces = messageContent.length;
+    const charCountWithoutSpaces = messageContent.replace(/\s/g, "").length;
 
     const embed = new EmbedBuilder()
       .setAuthor({ name: "Text Statistics", iconURL: bot.user.displayAvatarURL() })
