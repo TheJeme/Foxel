@@ -40,5 +40,6 @@ module.exports = {
   Kemokki: require("./kemokki"),
   Dimitri: require("./dimitri"),
   Jord: require("./jord"),
+  Psycopath: require("./psycopath"),
   Chat: require("./chat"),
 };
