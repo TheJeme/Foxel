@@ -8,7 +8,7 @@ module.exports = {
   name: "chat",
   description: "Interact with gpt-4o-mini model",
   async execute(msg, args, bot) { 
-    const messageContent = `${msg.author.name}: ${msg.content.slice(1)}`;
+    const messageContent = `${msg.author.username}: ${msg.content.slice(1)}`;
 
     try {
       const response = await openai.chat.completions.create({
