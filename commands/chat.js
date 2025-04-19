@@ -23,7 +23,7 @@ module.exports = {
           content: messageContent 
         }
         ],
-        model: 'gpt-4.1-mini'
+        model: 'gpt-4o-mini'
       });
 
       const reply = response.choices[0]?.message?.content;
