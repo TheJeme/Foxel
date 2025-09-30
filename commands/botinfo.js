@@ -9,7 +9,7 @@ module.exports = {
       .setColor(0xf66464)
       .setThumbnail(bot.user.displayAvatarURL())
       .setDescription(
-        `Version: **1.2**\nCreated on: **17.6.2021**\nCreated by: **thejeme**`
+        `Version: **1.2.1**\nCreated on: **17.6.2021**\nCreated by: **thejeme**`
       );
     msg.channel.send({ embeds: [embed] });
   },
