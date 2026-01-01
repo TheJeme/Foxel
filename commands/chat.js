@@ -6,7 +6,7 @@ const openai = new OpenAI({
 
 module.exports = {
   name: "chat",
-  description: "Interact with gpt-4o-mini model",
+  description: "Interact with gpt-5-nano model",
   async execute(msg, args, bot) { 
     const messageContent = `${msg.author.username}: ${msg.content.slice(1)}`;
     const currentDate = new Date().toLocaleString();
