@@ -19,9 +19,9 @@ Object.keys(botCommands).forEach((key) => {
   bot.commands.set(`${prefix}${botCommands[key].name}`, botCommands[key]);
 });
 
-const TOKEN = process.env.TOKEN;
+const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
 
-bot.login(TOKEN);
+bot.login(DISCORD_BOT_TOKEN);
 
 bot.on("ready", () => {
   console.info(`Logged in as ${bot.user.tag}`);

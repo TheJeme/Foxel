@@ -1,0 +1,7 @@
+services:
+  foxel:
+    build: .
+    container_name: foxel-bot
+    env_file:
+      - .env
+    restart: unless-stopped
