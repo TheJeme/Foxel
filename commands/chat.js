@@ -308,7 +308,12 @@ module.exports = {
       ? msg.content.slice(1).trim()
       : msg.content.trim();
     const splitContent = rawWithoutPrefix.split(/\s+/);
-    const messageContent = args.join(" ").trim() || splitContent.slice(1).join(" ").trim();
+    const argsContent = args.join(" ").trim();
+    const isDirectChatCommand = (splitContent[0] || "").toLowerCase() === "chat";
+    const fallbackContent = isDirectChatCommand
+      ? splitContent.slice(1).join(" ").trim()
+      : rawWithoutPrefix;
+    const messageContent = argsContent || fallbackContent;
 
     if (!messageContent) {
       msg.channel.send("Give me a message after the command so I can respond.");
