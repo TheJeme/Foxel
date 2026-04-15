@@ -1,5 +1,3 @@
-const pate = require("./pate");
-
 module.exports = {
   Ping: require("./ping"),
   Jeme: require("./jeme"),
@@ -31,15 +29,9 @@ module.exports = {
   Join: require("./join"),
   Leave: require("./leave"),
   Pate: require("./pate"),
-  Jenna: require("./jenna"),
-  Skruiba: require("./skruiba"),
-  Tuukka: require("./tuukka"),
-  Miksu: require("./miksu"),
-  Rosa: require("./rosa"),
-  Roosa: require("./roosa"),
   Kemokki: require("./kemokki"),
-  Dimitri: require("./dimitri"),
   Jord: require("./jord"),
   Psycopath: require("./psycopath"),
+  Kuivahevonen: require("./kuivahevonen"),
   Chat: require("./chat"),
 };
