@@ -8,7 +8,9 @@ Discord bot
 ## Configuration
 Create `.env` in the project root:
 ```bash
-DISCORD_BOT_TOKEN=your_token_here
+DISCORD_BOT_TOKEN=...
+OPENAI_API_KEY=...
+OPEN_WEATHER_API_KEY=...
 ```
 
 You can copy the example:
