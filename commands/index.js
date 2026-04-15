@@ -1,37 +1,27 @@
-module.exports = {
-  Ping: require("./ping"),
-  Jeme: require("./jeme"),
-  Uwu: require("./uwu"),
-  Owo: require("./owo"),
-  Foxel: require("./foxel"),
-  Help: require("./help"),
-  Coinflip: require("./coinflip"),
-  Dice: require("./dice"),
-  Lenny: require("./lenny"),
-  Botinfo: require("./botinfo"),
-  Serverinfo: require("./serverinfo"),
-  Invite: require("./invite"),
-  Fox: require("./fox"),
-  Userinfo: require("./userinfo"),
-  Random: require("./random"),
-  Color: require("./color"),
-  Reverse: require("./reverse"),
-  Waifu: require("./waifu"),
-  Neko: require("./neko"),
-  Hentai: require("./hentai"),
-  Tp: require("./tp"),
-  Sus: require("./sus"),
-  Avatar: require("./avatar"),
-  Price: require("./price"),
-  InviteCrypto: require("./invitecrypto"),
-  Weather: require("./weather"),
-  Wc: require("./wc"),
-  Join: require("./join"),
-  Leave: require("./leave"),
-  Pate: require("./pate"),
-  Kemokki: require("./kemokki"),
-  Jord: require("./jord"),
-  Psycopath: require("./psycopath"),
-  Kuivahevonen: require("./kuivahevonen"),
-  Chat: require("./chat"),
-};
+const fs = require("fs");
+const path = require("path");
+
+const commandsDir = __dirname;
+
+module.exports = fs
+  .readdirSync(commandsDir)
+  .filter((fileName) => fileName.endsWith(".js") && fileName !== "index.js")
+  .sort((a, b) => a.localeCompare(b))
+  .reduce((loadedCommands, fileName) => {
+    const commandPath = path.join(commandsDir, fileName);
+
+    try {
+      const command = require(commandPath);
+
+      if (!command?.name || typeof command.execute !== "function") {
+        console.warn(`Skipping invalid command module: ${fileName}`);
+        return loadedCommands;
+      }
+
+      loadedCommands[command.name] = command;
+    } catch (error) {
+      console.error(`Failed to load command module: ${fileName}`, error);
+    }
+
+    return loadedCommands;
+  }, {});

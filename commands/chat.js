@@ -1,3 +1,4 @@
+// Enable models from here: https://platform.openai.com/settings/proj_OFtVSE5njCcPKpHnAXgT44GY/limits
 const OpenAI = require("openai");
 const fs = require("fs");
 const path = require("path");
