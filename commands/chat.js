@@ -13,6 +13,7 @@ const CONTEXT_FETCH_LIMIT = 24;
 const CONTEXT_MESSAGE_LIMIT = 8;
 const CHANNEL_MEMORY_KEY = "__channels";
 const CHANNEL_LANGUAGE_HALF_LIFE_DAYS = 21;
+const CONTEXT_OVERLAP_MIN = 1;
 
 const finnishHints = [
   " on ", " ei ", " ja ", " että ", " mitä ", " miten ", " tämä ", " se ", " mutta ", " kun ",
@@ -80,6 +81,15 @@ function overlapCount(a, b) {
   return count;
 }
 
+function looksLikeFollowUpMessage(text) {
+  const normalized = text.trim().toLowerCase();
+  if (!normalized) return false;
+
+  if (normalized.length <= 24 && !normalized.includes("?")) return true;
+
+  return /\b(entä|entas|eli|siis|niin|nii|joo|okei|ok|mut|mutta|ja|tosta|tuosta|siitä|siita|tuohon|tähän|tasta|tästä|what about|and what|so |then |that one|those)\b/i.test(normalized);
+}
+
 function selectRelevantHistoryEntries(entries, newestMessage, authorId) {
   const newestKeywords = keywordSet(newestMessage);
   const sortedDesc = [...entries].sort((a, b) => b.createdTimestamp - a.createdTimestamp);
@@ -93,19 +103,24 @@ function selectRelevantHistoryEntries(entries, newestMessage, authorId) {
     return { entry, score, overlap };
   });
 
+  const maxOverlap = scored.reduce((highest, item) => Math.max(highest, item.overlap), 0);
+  const isFollowUp = looksLikeFollowUpMessage(newestMessage);
   const chosen = [];
-  for (const item of scored) {
-    if (item.overlap > 0 && chosen.length < CONTEXT_MESSAGE_LIMIT) {
-      chosen.push(item.entry);
+
+  if (maxOverlap >= CONTEXT_OVERLAP_MIN) {
+    for (const item of scored) {
+      if (item.overlap >= CONTEXT_OVERLAP_MIN && chosen.length < CONTEXT_MESSAGE_LIMIT) {
+        chosen.push(item.entry);
+      }
+    }
+  } else if (isFollowUp) {
+    for (const item of sortedDesc) {
+      if (chosen.length >= 4) break;
+      chosen.push(item);
     }
   }
 
-  for (const item of scored) {
-    if (chosen.length >= CONTEXT_MESSAGE_LIMIT) break;
-    if (chosen.includes(item.entry)) continue;
-    chosen.push(item.entry);
-  }
-
+  if (chosen.length === 0) return [];
   return chosen.sort((a, b) => a.createdTimestamp - b.createdTimestamp);
 }
 
