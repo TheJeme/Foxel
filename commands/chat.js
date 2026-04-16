@@ -428,16 +428,17 @@ module.exports = {
     const channelProfile = getChannelProfile(msg.channel.id);
     applyChannelLanguageDecay(channelProfile);
 
-    const rawWithoutPrefix = msg.content.startsWith(">")
-      ? msg.content.slice(1).trim()
-      : msg.content.trim();
+    const rawContent = msg.content.trim();
+    const rawWithoutPrefix = rawContent.startsWith(">")
+      ? rawContent.slice(1).trim()
+      : rawContent;
     const splitContent = rawWithoutPrefix.split(/\s+/);
     const argsContent = args.join(" ").trim();
     const isDirectChatCommand = (splitContent[0] || "").toLowerCase() === "chat";
-    const fallbackContent = isDirectChatCommand
-      ? splitContent.slice(1).join(" ").trim()
-      : rawWithoutPrefix;
-    const messageContent = argsContent || fallbackContent;
+    const directChatContent = splitContent.slice(1).join(" ").trim();
+    const messageContent = isDirectChatCommand
+      ? (argsContent || directChatContent)
+      : rawContent;
 
     if (!messageContent) {
       msg.channel.send("Give me a message after the command so I can respond.");
