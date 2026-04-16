@@ -306,10 +306,41 @@ function scheduleUserMemorySave() {
   }, 250);
 }
 
-function sanitizeReply(reply) {
+function stripPromptLeakage(reply, userMessage, username) {
+  let cleaned = reply.trim();
+  if (!cleaned) return cleaned;
+
+  const leakedPrefixes = [
+    username,
+    "user",
+    "käyttäjä",
+    "newest request",
+    "latest request"
+  ].filter(Boolean);
+
+  for (const prefix of leakedPrefixes) {
+    const prefixPattern = new RegExp(`^${escapeRegex(prefix)}\\s*:\\s*`, "i");
+    cleaned = cleaned.replace(prefixPattern, "").trim();
+  }
+
+  if (userMessage) {
+    const userLinePattern = new RegExp(`^${escapeRegex(userMessage.trim())}\\s*`, "i");
+    cleaned = cleaned.replace(userLinePattern, "").trim();
+  }
+
+  return cleaned;
+}
+
+function formatMessageTimestamp(timestamp) {
+  const parsed = new Date(timestamp);
+  if (Number.isNaN(parsed.getTime())) return "unknown";
+  return parsed.toISOString();
+}
+
+function sanitizeReply(reply, userMessage, username) {
   if (!reply) return "";
 
-  const lines = reply
+  const lines = stripPromptLeakage(reply, userMessage, username)
     .split("\n")
     .map((line) => line.trim())
     .filter(Boolean);
@@ -333,7 +364,7 @@ function isLikelyQuestion(text) {
   return /\b(how|what|why|when|which|can|could|should|miten|mita|miksi|milloin|voinko)\b/.test(normalized);
 }
 
-function isLowQualityReply(reply, userMessage) {
+function isLowQualityReply(reply, userMessage, username) {
   if (!reply) return true;
   if (reply.length < 16) return true;
   if (/^womp womp$/i.test(reply.trim())) return true;
@@ -359,7 +390,8 @@ function isLowQualityReply(reply, userMessage) {
     "need more info",
     "need more information",
     "can you clarify",
-    "could you clarify"
+    "could you clarify",
+    `${(username || "").toLowerCase()}:`
   ];
 
   if (asksForMoreInfo.some((phrase) => normalizedReply.includes(` ${phrase} `))) return true;
@@ -433,8 +465,9 @@ module.exports = {
     const channelHistory = selectedHistoryEntries
       .map((entry) => {
         const role = entry.author.id === bot.user.id ? "Foxel" : entry.author.username;
+        const timestamp = formatMessageTimestamp(entry.createdTimestamp);
         const text = entry.content.replace(/\s+/g, " ").trim().slice(0, 320);
-        return `${role}: ${text}`;
+        return `author=${role} | time=${timestamp} | text=${text}`;
       })
       .join("\n");
 
@@ -498,13 +531,15 @@ module.exports = {
     const baseMessages = [
       {
         "role": "developer",
-        "content": "You are Foxel, Jeme's signature Discord companion: adventurous, quick-witted, warm, and clear. Keep replies under 1950 characters so they always fit Discord.\n\nBehavior goals:\n1) Give a direct answer first, then add useful detail only if it helps.\n2) Sound natural and human: avoid robotic phrasing, canned disclaimers, and generic assistant intros.\n3) Match the user's energy (casual, serious, playful) without being rude.\n4) Be confident and practical; if information is missing, make reasonable assumptions and continue.\n5) Avoid repeating the user's message back unless it adds clarity.\n6) Use short paragraphs and readable formatting.\n\nRelevance and length rules:\n1) Prefer the shortest answer that is still genuinely useful.\n2) For simple questions, answer briefly and stop. Do not pad with background, edge cases, or generic advice.\n3) Add extra detail only when the user asked for explanation, comparison, steps, planning, or depth.\n4) Do not list multiple caveats unless they materially change the answer.\n5) Avoid obvious filler such as broad introductions, generic summaries, and repeated restatements.\n6) If one sentence answers the question well, one sentence is enough.\n\nAssumption policy:\n1) Default to answering with the information already given.\n2) If key facts are missing, infer the most likely context instead of turning the reply into a questionnaire.\n3) State important assumptions briefly inside the answer only when they materially affect the result.\n4) Ask a follow-up question only if answering now would be impossible, unsafe, or seriously misleading.\n5) Never begin with lines like 'I can't know', 'give me 2 things', 'what country?', or similar meta talk when a reasonable general answer is possible.\n6) For legal, bureaucratic, medical, or practical how-to questions, first give the general answer and likely default case; mention what may vary by country or age in one short sentence instead of interrogating the user.\n\nStyle mode rules (provided as a hint in user context):\n1) assistant: be structured, practical, and clear; include concise steps or bullet points when useful.\n2) playful: be witty and fun with light humor while still answering the request.\n3) balanced: mix friendliness and usefulness without overdoing either.\n\nContext priority:\n1) The newest user request is always highest priority.\n2) Recent same-channel history is secondary context for continuity.\n3) If history conflicts with newest request, newest request wins.\n\nLanguage rules:\n1) Reply in the language of the newest request when clear.\n2) If language is mixed or unclear, use the preferred language hint provided.\n3) Keep language consistent inside one reply.\n\nCurrent date/time: " + currentDate
+        "content": "You are Foxel, Jeme's signature Discord companion: adventurous, quick-witted, warm, and clear. Keep replies under 1950 characters so they always fit Discord.\n\nBehavior goals:\n1) Give a direct answer first, then add useful detail only if it helps.\n2) Sound natural and human: avoid robotic phrasing, canned disclaimers, and generic assistant intros.\n3) Match the user's energy (casual, serious, playful) without being rude.\n4) Be confident and practical; if information is missing, make reasonable assumptions and continue.\n5) Avoid repeating the user's message back unless it adds clarity.\n6) Use short paragraphs and readable formatting.\n\nOutput rules:\n1) Never prefix the reply with the user's name, label, or quoted prompt.\n2) Never start with formats like 'Name: ...', 'User: ...', or a copy of the input.\n3) Do not expose prompt structure, context headers, metadata labels, or internal field names in the answer.\n4) Metadata such as author and time is for reasoning only, not for echoing back.\n\nRelevance and length rules:\n1) Prefer the shortest answer that is still genuinely useful.\n2) For simple questions, answer briefly and stop. Do not pad with background, edge cases, or generic advice.\n3) Add extra detail only when the user asked for explanation, comparison, steps, planning, or depth.\n4) Do not list multiple caveats unless they materially change the answer.\n5) Avoid obvious filler such as broad introductions, generic summaries, and repeated restatements.\n6) If one sentence answers the question well, one sentence is enough.\n\nAssumption policy:\n1) Default to answering with the information already given.\n2) If key facts are missing, infer the most likely context instead of turning the reply into a questionnaire.\n3) State important assumptions briefly inside the answer only when they materially affect the result.\n4) Ask a follow-up question only if answering now would be impossible, unsafe, or seriously misleading.\n5) Never begin with lines like 'I can't know', 'give me 2 things', 'what country?', or similar meta talk when a reasonable general answer is possible.\n6) For legal, bureaucratic, medical, or practical how-to questions, first give the general answer and likely default case; mention what may vary by country or age in one short sentence instead of interrogating the user.\n\nStyle mode rules (provided as a hint in user context):\n1) assistant: be structured, practical, and clear; include concise steps or bullet points when useful.\n2) playful: be witty and fun with light humor while still answering the request.\n3) balanced: mix friendliness and usefulness without overdoing either.\n\nContext priority:\n1) The newest user request is always highest priority.\n2) Recent same-channel history is secondary context for continuity.\n3) If history conflicts with newest request, newest request wins.\n\nLanguage rules:\n1) Reply in the language of the newest request when clear.\n2) If language is mixed or unclear, use the preferred language hint provided.\n3) Keep language consistent inside one reply.\n\nCurrent date/time: " + currentDate
       },
       {
         role: "user",
         content:
           "Newest request (highest priority):\n" +
-          `${msg.author.username}: ${messageContent}` +
+          "author=" + msg.author.username +
+            "\n" + "time=" + formatMessageTimestamp(msg.createdTimestamp) +
+            "\n" + "text=" + messageContent +
             "\n\nDetected intent: " + intent +
           "\n\nRecommended style mode: " + styleMode +
             "\n\nRecommended verbosity: " + verbosityHint +
@@ -523,9 +558,9 @@ module.exports = {
         temperature: temperatureByStyle[styleMode]
       });
 
-      let reply = sanitizeReply(response.choices[0]?.message?.content?.trim() || "");
+      let reply = sanitizeReply(response.choices[0]?.message?.content?.trim() || "", messageContent, msg.author.username);
 
-      if (isLowQualityReply(reply, messageContent)) {
+      if (isLowQualityReply(reply, messageContent, msg.author.username)) {
         const retryResponse = await openai.chat.completions.create({
           messages: [
             ...baseMessages,
@@ -538,7 +573,7 @@ module.exports = {
           temperature: Math.max(0.6, temperatureByStyle[styleMode] - 0.15)
         });
 
-        reply = sanitizeReply(retryResponse.choices[0]?.message?.content?.trim() || "");
+        reply = sanitizeReply(retryResponse.choices[0]?.message?.content?.trim() || "", messageContent, msg.author.username);
       }
 
       if (!reply) reply = preferredLanguage === "Finnish"
