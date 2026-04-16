@@ -139,8 +139,33 @@ function detectIntent(sample) {
   return "general";
 }
 
-function getTemplateHint(intent, styleMode) {
+function getVerbosityHint(sample, intent) {
+  const trimmed = sample.trim();
+  const words = trimmed.split(/\s+/).filter(Boolean).length;
+  const hasQuestionMark = trimmed.includes("?");
+  const asksHow = /\b(how|what|why|when|which|can|could|should|miten|mita|miksi|milloin|voinko)\b/i.test(trimmed);
+
+  if (intent === "plan" || intent === "travel" || intent === "compare") {
+    return "expanded";
+  }
+
+  if (words <= 6 && (hasQuestionMark || asksHow)) {
+    return "tight";
+  }
+
+  if (words <= 14) {
+    return "compact";
+  }
+
+  return "balanced";
+}
+
+function getTemplateHint(intent, styleMode, verbosityHint) {
   if (styleMode === "playful") {
+    if (verbosityHint === "tight") {
+      return "Keep it witty and concise. Prefer 1-3 short sentences. Include at most one playful line, but still answer clearly.";
+    }
+
     return "Keep it witty and concise. Prefer 1-4 short sentences. Include one playful line, but still answer clearly.";
   }
 
@@ -154,6 +179,14 @@ function getTemplateHint(intent, styleMode) {
 
   if (intent === "compare") {
     return "Use this structure: 1) Short verdict. 2) Key differences. 3) Which option fits which user. 4) Final recommendation.";
+  }
+
+  if (verbosityHint === "tight") {
+    return "Use minimal helpful style: answer in 1-3 sentences, only the most relevant point first, no side notes unless essential.";
+  }
+
+  if (verbosityHint === "compact") {
+    return "Use compact style: direct answer first, then only 1-3 short useful details. Skip obvious background.";
   }
 
   if (styleMode === "assistant") {
@@ -293,6 +326,50 @@ function isLowQualityReply(reply, userMessage) {
   const words = reply.split(/\s+/).filter(Boolean);
   if (isLikelyQuestion(userMessage) && words.length < 6) return true;
 
+  const normalizedReply = ` ${reply.toLowerCase()} `;
+  const questionMarks = (reply.match(/\?/g) || []).length;
+  const lines = reply.split("\n").filter(Boolean);
+  const asksForMoreInfo = [
+    "en voi tietää",
+    "en tiedä mistä",
+    "anna 2 asiaa",
+    "anna kaksi asiaa",
+    "tarvitsen lisätietoja",
+    "tarvitsen tarkennuksen",
+    "voitko tarkentaa",
+    "voisitko tarkentaa",
+    "missä maassa",
+    "minkä ikäinen",
+    "what country",
+    "need more info",
+    "need more information",
+    "can you clarify",
+    "could you clarify"
+  ];
+
+  if (asksForMoreInfo.some((phrase) => normalizedReply.includes(` ${phrase} `))) return true;
+  if (questionMarks >= 2 && lines.length <= 4) return true;
+
+  const userWords = userMessage.split(/\s+/).filter(Boolean).length;
+  const replyWords = words.length;
+  const replyParagraphs = reply.split(/\n{2,}/).filter(Boolean).length;
+  const fillerPhrases = [
+    "in general",
+    "generally speaking",
+    "it depends",
+    "that said",
+    "for example",
+    "yleisesti ottaen",
+    "se riippuu",
+    "toisaalta",
+    "esimerkiksi"
+  ];
+
+  if (userWords <= 8 && replyWords > 120) return true;
+  if (userWords <= 14 && replyWords > 180) return true;
+  if (replyParagraphs >= 4 && userWords <= 12) return true;
+  if (fillerPhrases.filter((phrase) => normalizedReply.includes(` ${phrase} `)).length >= 3) return true;
+
   return false;
 }
 
@@ -393,7 +470,8 @@ module.exports = {
     }
 
     const intent = detectIntent(messageContent);
-    const responseTemplateHint = getTemplateHint(intent, styleMode);
+    const verbosityHint = getVerbosityHint(messageContent, intent);
+    const responseTemplateHint = getTemplateHint(intent, styleMode, verbosityHint);
 
     const temperatureByStyle = {
       assistant: 0.65,
@@ -405,7 +483,7 @@ module.exports = {
     const baseMessages = [
       {
         "role": "developer",
-        "content": "You are Foxel, Jeme's signature Discord companion: adventurous, quick-witted, warm, and clear. Keep replies under 1950 characters so they always fit Discord.\n\nBehavior goals:\n1) Give a direct answer first, then add useful detail if needed.\n2) Sound natural and human: avoid robotic phrasing and canned disclaimers.\n3) Match the user's energy (casual, serious, playful) without being rude.\n4) Be confident and practical; if information is missing, make reasonable assumptions and continue.\n5) Avoid repeating the user's message back unless it adds clarity.\n6) Use short paragraphs and readable formatting.\n\nStyle mode rules (provided as a hint in user context):\n1) assistant: be structured, practical, and clear; include concise steps or bullet points when useful.\n2) playful: be witty and fun with light humor while still answering the request.\n3) balanced: mix friendliness and usefulness without overdoing either.\n\nContext priority:\n1) The newest user request is always highest priority.\n2) Recent same-channel history is secondary context for continuity.\n3) If history conflicts with newest request, newest request wins.\n\nLanguage rules:\n1) Reply in the language of the newest request when clear.\n2) If language is mixed or unclear, use the preferred language hint provided.\n3) Keep language consistent inside one reply.\n\nCurrent date/time: " + currentDate
+        "content": "You are Foxel, Jeme's signature Discord companion: adventurous, quick-witted, warm, and clear. Keep replies under 1950 characters so they always fit Discord.\n\nBehavior goals:\n1) Give a direct answer first, then add useful detail only if it helps.\n2) Sound natural and human: avoid robotic phrasing, canned disclaimers, and generic assistant intros.\n3) Match the user's energy (casual, serious, playful) without being rude.\n4) Be confident and practical; if information is missing, make reasonable assumptions and continue.\n5) Avoid repeating the user's message back unless it adds clarity.\n6) Use short paragraphs and readable formatting.\n\nRelevance and length rules:\n1) Prefer the shortest answer that is still genuinely useful.\n2) For simple questions, answer briefly and stop. Do not pad with background, edge cases, or generic advice.\n3) Add extra detail only when the user asked for explanation, comparison, steps, planning, or depth.\n4) Do not list multiple caveats unless they materially change the answer.\n5) Avoid obvious filler such as broad introductions, generic summaries, and repeated restatements.\n6) If one sentence answers the question well, one sentence is enough.\n\nAssumption policy:\n1) Default to answering with the information already given.\n2) If key facts are missing, infer the most likely context instead of turning the reply into a questionnaire.\n3) State important assumptions briefly inside the answer only when they materially affect the result.\n4) Ask a follow-up question only if answering now would be impossible, unsafe, or seriously misleading.\n5) Never begin with lines like 'I can't know', 'give me 2 things', 'what country?', or similar meta talk when a reasonable general answer is possible.\n6) For legal, bureaucratic, medical, or practical how-to questions, first give the general answer and likely default case; mention what may vary by country or age in one short sentence instead of interrogating the user.\n\nStyle mode rules (provided as a hint in user context):\n1) assistant: be structured, practical, and clear; include concise steps or bullet points when useful.\n2) playful: be witty and fun with light humor while still answering the request.\n3) balanced: mix friendliness and usefulness without overdoing either.\n\nContext priority:\n1) The newest user request is always highest priority.\n2) Recent same-channel history is secondary context for continuity.\n3) If history conflicts with newest request, newest request wins.\n\nLanguage rules:\n1) Reply in the language of the newest request when clear.\n2) If language is mixed or unclear, use the preferred language hint provided.\n3) Keep language consistent inside one reply.\n\nCurrent date/time: " + currentDate
       },
       {
         role: "user",
@@ -414,6 +492,7 @@ module.exports = {
           `${msg.author.username}: ${messageContent}` +
             "\n\nDetected intent: " + intent +
           "\n\nRecommended style mode: " + styleMode +
+            "\n\nRecommended verbosity: " + verbosityHint +
             "\n\nResponse format hint: " + responseTemplateHint +
           "\n\nPreferred language if uncertain: " + preferredLanguage +
             "\n\nLanguage confidence: " + languageConfidence +
@@ -437,7 +516,7 @@ module.exports = {
             ...baseMessages,
             {
               role: "user",
-              content: "Quality pass: answer directly and concretely in under 6 lines. Avoid filler, and make sure the main question is answered."
+              content: "Quality pass: tighten the answer. Keep only the directly useful parts, remove filler and side notes, and do not ask multiple follow-up questions. If context is missing, make the most reasonable assumption and answer anyway. Avoid meta talk, repeated prompt wording, and unnecessary background."
             }
           ],
           model: "gpt-5.4-nano",
