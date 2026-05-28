@@ -44,6 +44,7 @@ db.exec(`
 
   CREATE INDEX IF NOT EXISTS idx_reminders_pending ON reminders(remind_at) WHERE delivered = 0;
   CREATE INDEX IF NOT EXISTS idx_notes_user ON notes(user_id);
+  CREATE UNIQUE INDEX IF NOT EXISTS idx_notes_user_key ON notes(user_id, key);
   CREATE INDEX IF NOT EXISTS idx_conversations_channel ON conversations(channel_id, created_at);
 `);
 
@@ -75,9 +76,6 @@ const upsertNote = db.prepare(`
   VALUES (?, ?, ?)
   ON CONFLICT(user_id, key) DO UPDATE SET value = excluded.value, updated_at = strftime('%s', 'now')
 `);
-
-// Need a unique constraint for upsert to work
-db.exec(`CREATE UNIQUE INDEX IF NOT EXISTS idx_notes_user_key ON notes(user_id, key)`);
 
 const getUserNotes = db.prepare(`
   SELECT key, value FROM notes WHERE user_id = ? ORDER BY updated_at DESC LIMIT 20
