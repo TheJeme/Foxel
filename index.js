@@ -1,5 +1,6 @@
 require("dotenv").config();
-const { Client, GatewayIntentBits, Collection } = require("discord.js");
+const { Client, GatewayIntentBits, Collection, Partials } = require("discord.js");
+const { reminders } = require("./db");
 
 const bot = new Client({
   intents: [
@@ -9,6 +10,7 @@ const bot = new Client({
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent,
   ],
+  partials: [Partials.Channel],
 });
 
 bot.commands = new Collection();
@@ -40,13 +42,36 @@ bot.login(DISCORD_BOT_TOKEN);
 bot.on("ready", () => {
   console.info(`Logged in as ${bot.user.tag}`);
   bot.user.setActivity(`${prefix}help`);
+
+  // Check for due reminders every 30 seconds
+  setInterval(async () => {
+    const due = reminders.getPending();
+    for (const reminder of due) {
+      try {
+        const channel = await bot.channels.fetch(reminder.channel_id).catch(() => null);
+        if (channel) {
+          await channel.send(`<@${reminder.user_id}> Reminder: **${reminder.message}**`);
+        }
+        reminders.markDelivered(reminder.id);
+      } catch (err) {
+        console.error("Failed to deliver reminder:", err);
+        reminders.markDelivered(reminder.id);
+      }
+    }
+  }, 30_000);
 });
 
 bot.on("messageCreate", async (msg) => {
+  if (msg.author.id === bot.user.id) return;
+
+  // React with emoji when @mentioned (but don't process as command)
+  if (msg.mentions.has(bot.user) && !msg.content.trim().startsWith(prefix)) {
+    try { await msg.react("🦊"); } catch {}
+    return;
+  }
+
   const args = msg.content.split(/ +/);
   const command = args.shift().toLowerCase();
-
-  if (msg.author.bot) return;
 
   if (!command.startsWith(prefix)) return;
 
