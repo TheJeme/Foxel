@@ -92,7 +92,7 @@ const addMessage = db.prepare(`
 `);
 
 const getRecentMessages = db.prepare(`
-  SELECT role, content, created_at FROM conversations
+  SELECT role, user_id, content, created_at FROM conversations
   WHERE channel_id = ?
   ORDER BY created_at DESC
   LIMIT ?

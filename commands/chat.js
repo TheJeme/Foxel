@@ -175,10 +175,15 @@ module.exports = {
 
     // Get recent conversation history from DB
     const recentHistory = conversation.getRecent(msg.channel.id, 25);
-    const historyMessages = recentHistory.map((entry) => ({
-      role: entry.role,
-      content: entry.content,
-    }));
+    const historyMessages = recentHistory.map((entry) => {
+      if (entry.role === "assistant") {
+        return { role: "assistant", content: entry.content };
+      }
+      // Include username for multi-user context
+      const member = msg.guild?.members.cache.get(entry.user_id);
+      const name = member?.displayName || "someone";
+      return { role: "user", content: `[${name}]: ${entry.content}` };
+    });
 
     // Build messages array
     const systemContent = SYSTEM_PROMPT

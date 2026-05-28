@@ -64,6 +64,21 @@ bot.on("ready", () => {
 bot.on("messageCreate", async (msg) => {
   if (msg.author.id === bot.user.id) return;
 
+  // Reply-chain: if someone replies to the bot's message, treat as chat
+  if (msg.reference && !msg.content.trim().startsWith(prefix)) {
+    try {
+      const repliedTo = await msg.channel.messages.fetch(msg.reference.messageId);
+      if (repliedTo.author.id === bot.user.id) {
+        const chatCommand = bot.commands.get(`${prefix}chat`);
+        if (chatCommand) {
+          const args = msg.content.split(/ +/);
+          await executeCommand(chatCommand, msg, args);
+        }
+        return;
+      }
+    } catch {}
+  }
+
   // React with emoji when @mentioned (but don't process as command)
   if (msg.mentions.has(bot.user) && !msg.content.trim().startsWith(prefix)) {
     try { await msg.react("🦊"); } catch {}
