@@ -50,7 +50,7 @@ bot.on("ready", () => {
       try {
         const channel = await bot.channels.fetch(reminder.channel_id).catch(() => null);
         if (channel) {
-          await channel.send(`<@${reminder.user_id}> Reminder: **${reminder.message}**`);
+          await channel.send(`<@${reminder.user_id}> ${reminder.message}`);
         }
         reminders.markDelivered(reminder.id);
       } catch (err) {

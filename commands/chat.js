@@ -79,11 +79,11 @@ function executeTool(name, args, userId, guildId, channelId) {
     case "set_reminder": {
       const remindAt = Math.floor(Date.now() / 1000) + Math.round(args.minutes_from_now * 60);
       reminders.add(userId, guildId, channelId, args.message, remindAt);
-      return { success: true, message: `Reminder set for ${args.minutes_from_now} minutes from now.` };
+      return { success: true };
     }
     case "list_reminders": {
       const list = reminders.getForUser(userId);
-      if (list.length === 0) return { reminders: [], message: "No pending reminders." };
+      if (list.length === 0) return { reminders: [] };
       return {
         reminders: list.map((r) => ({
           id: r.id,
@@ -138,8 +138,12 @@ Things you do NOT do:
 Tools:
 - Use save_note when users share facts about themselves you should remember
 - Use set_reminder when they ask to be reminded about something
+- When setting reminders, write the reminder message in the same language the user used
 
-Current time: {{TIME}}`;
+Context:
+- Current time: {{TIME}}
+- Server: {{SERVER}}
+- Talking to: {{USERNAME}}`;
 
 module.exports = {
   name: "chat",
@@ -170,14 +174,18 @@ module.exports = {
       : "";
 
     // Get recent conversation history from DB
-    const recentHistory = conversation.getRecent(msg.channel.id, 12);
+    const recentHistory = conversation.getRecent(msg.channel.id, 25);
     const historyMessages = recentHistory.map((entry) => ({
       role: entry.role,
       content: entry.content,
     }));
 
     // Build messages array
-    const systemContent = SYSTEM_PROMPT.replace("{{TIME}}", new Date().toLocaleString()) + notesContext;
+    const systemContent = SYSTEM_PROMPT
+      .replace("{{TIME}}", new Date().toLocaleString())
+      .replace("{{SERVER}}", msg.guild?.name || "DM")
+      .replace("{{USERNAME}}", msg.author.displayName || msg.author.username)
+      + notesContext;
     const messages = [
       { role: "system", content: systemContent },
       ...historyMessages,
