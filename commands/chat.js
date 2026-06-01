@@ -148,6 +148,7 @@ Context:
 module.exports = {
   name: "chat",
   description: "Interact with AI",
+  acceptsArgs: true,
   async execute(msg, args, bot) {
     const rawContent = msg.content.trim();
     const withoutPrefix = rawContent.startsWith(">") ? rawContent.slice(1).trim() : rawContent;

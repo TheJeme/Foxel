@@ -3,6 +3,7 @@ const { EmbedBuilder } = require("discord.js");
 module.exports = {
   name: "userinfo",
   description: "Shows user info.",
+  acceptsArgs: true,
   async execute(msg, args, bot) {
     if (args.length !== 1) {
       let embed = new EmbedBuilder()

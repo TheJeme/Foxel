@@ -5,6 +5,7 @@ const moment = require("moment");
 module.exports = {
   name: "price",
   description: "Gets current price on given crypto.",
+  acceptsArgs: true,
   execute(msg, args) {
     if (args.length !== 1 && args.length !== 2) {
       msg.channel.send(

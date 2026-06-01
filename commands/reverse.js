@@ -1,6 +1,7 @@
 module.exports = {
   name: "reverse",
   description: "Reverses the given message",
+  acceptsArgs: true,
   execute(msg, args) {
     if (args.length === 0) {
       msg.channel.send(

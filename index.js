@@ -92,7 +92,16 @@ bot.on("messageCreate", async (msg) => {
 
   console.info(`Called command: ${command}`);
 
-  const resolvedCommand = bot.commands.get(command) || bot.commands.get(`${prefix}chat`);
+  let resolvedCommand = bot.commands.get(command);
+
+  // If command doesn't accept args but args were provided, fall through to chat
+  if (resolvedCommand && !resolvedCommand.acceptsArgs && args.length > 0) {
+    resolvedCommand = null;
+  }
+
+  if (!resolvedCommand) {
+    resolvedCommand = bot.commands.get(`${prefix}chat`);
+  }
 
   if (!resolvedCommand) {
     console.error(`No command handler found for ${command} and no chat fallback is registered.`);

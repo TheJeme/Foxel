@@ -3,6 +3,7 @@ const rgbToHex = require("rgb-to-hex");
 module.exports = {
   name: "color",
   description: "Sends a picture of the specified color (hex/rgb).",
+  acceptsArgs: true,
   execute(msg, args) {
     let color;
     if (args.length === 1 && args[0].startsWith("#") && args[0].length === 7) {
@@ -11,15 +12,15 @@ module.exports = {
       color = args[0];
     } else if (
       args.length === 3 &&
-      parseInt(args[0]) >= 0 &&
-      parseInt(args[0]) <= 255 &&
-      parseInt(args[1]) >= 0 &&
-      parseInt(args[1]) <= 255 &&
-      parseInt(args[2]) >= 0 &&
-      parseInt(args[2]) <= 255
+      Number.parseInt(args[0]) >= 0 &&
+      Number.parseInt(args[0]) <= 255 &&
+      Number.parseInt(args[1]) >= 0 &&
+      Number.parseInt(args[1]) <= 255 &&
+      Number.parseInt(args[2]) >= 0 &&
+      Number.parseInt(args[2]) <= 255
     ) {
       color = rgbToHex(
-        `rgb(${parseInt(args[0])}, ${parseInt(args[1])}, ${parseInt(args[2])})`
+        `rgb(${Number.parseInt(args[0])}, ${Number.parseInt(args[1])}, ${Number.parseInt(args[2])})`
       );
     } else {
       msg.channel.send(

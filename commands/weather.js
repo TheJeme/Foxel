@@ -5,6 +5,7 @@ const moment = require("moment");
 module.exports = {
   name: "weather",
   description: "Shows weather in given place.",
+  acceptsArgs: true,
   execute(msg, args, bot) {
     if (args.length !== 1 && args.length !== 2) {
       msg.channel.send(
