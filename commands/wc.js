@@ -3,6 +3,7 @@ const { EmbedBuilder } = require("discord.js");
 module.exports = {
   name: "wc",
   description: "Shows Word and Character count",
+  acceptsArgs: true,
   execute(msg, args, bot) {
     if (args.length === 0) {
       msg.channel.send(
